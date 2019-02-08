@@ -12,5 +12,14 @@ namespace persistence
         {
             optionsBuilder.UseSqlite("Data Source=themis.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Chore>().HasData(
+                new Chore {Id = 1, Title = "Establish World Domination", Description = "Ask Pinky and Brain for details!"},
+                new Chore {Id = 2, Title = "World Peace", Description = "Once you dominate all, declare world peace"},
+                new Chore {Id = 3, Title = "Go Fishing", Description = "Take your fishing rod and decoys and get some fish."}
+            );
+        }
     }
 }

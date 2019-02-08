@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using persistence;
 using webapi.Models;
 
 namespace webapi.Controllers
@@ -12,6 +13,13 @@ namespace webapi.Controllers
     {
         public IActionResult Index()
         {
+            IEnumerable<Chore> chores = null;
+            using (var themCtx = new ThemisContext())
+            {
+                chores = themCtx.Chores.ToList();
+            }
+
+            ViewBag.Chores = chores;
             return View();
         }
 
