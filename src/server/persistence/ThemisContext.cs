@@ -10,7 +10,7 @@ namespace persistence
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=themis.db");
+            optionsBuilder.UseSqlite("Data Source=../persistence/themis.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
