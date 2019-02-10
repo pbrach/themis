@@ -11,7 +11,7 @@ namespace persistence
         [Required]
         public string Title { get; set; }
         
-        [MaxLength]
+        [MaxLength(2000)]
         public string Description { get; set; }
 
         public IEnumerable<Chore> Chores { get; set; }

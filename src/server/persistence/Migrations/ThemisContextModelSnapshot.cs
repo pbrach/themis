@@ -58,7 +58,8 @@ namespace persistence.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("Title")
                         .IsRequired()
