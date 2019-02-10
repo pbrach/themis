@@ -30,20 +30,22 @@ namespace persistence.Migrations
                 table: "Chores",
                 column: "PlanId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Chores_Plans_PlanId",
-                table: "Chores",
-                column: "PlanId",
-                principalTable: "Plans",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            /* SQLite does not support foreign keys */
+//            migrationBuilder.AddForeignKey(
+//                name: "FK_Chores_Plans_PlanId",
+//                table: "Chores",
+//                column: "PlanId",
+//                principalTable: "Plans",
+//                principalColumn: "Id",
+//                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Chores_Plans_PlanId",
-                table: "Chores");
+            /* SQLite does not support foreign keys */
+//            migrationBuilder.DropForeignKey(
+//                name: "FK_Chores_Plans_PlanId",
+//                table: "Chores");
 
             migrationBuilder.DropTable(
                 name: "Plans");

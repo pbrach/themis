@@ -12,7 +12,7 @@ namespace persistence
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=../persistence/themis.db");
+            optionsBuilder.UseSqlite("Data Source=../persistence/themis.db",  x => x.SuppressForeignKeyEnforcement());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
