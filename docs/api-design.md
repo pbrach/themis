@@ -27,7 +27,6 @@ For every plan a second hash, the so called: **authorization-hash** will be crea
 | Route | Verb | Function |
 |-------|------|----------|
 | `~/`                     | GET         | Home Page|
-|
 | `~/plan/create`          | GET         | SHOW the plan-create form |
 | `~/plan`                 | POST        | CREATEs a new plan. Data must be provided as Json in the request body. On submit success, the client is redirected to `~/plan/success`. |
 | `~/plan/success`         | GET         | SHOWs the two urls to the plan (one with `acc-hash` and one with `authhash`) |
