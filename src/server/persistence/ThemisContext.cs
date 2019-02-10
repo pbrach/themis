@@ -8,6 +8,8 @@ namespace persistence
     {
         public DbSet<Chore> Chores {get; set; }
         
+        public DbSet<Plan> Plans {get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=../persistence/themis.db");
