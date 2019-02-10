@@ -1,7 +1,10 @@
-@* @model TModel *@
+@model PlanViewModel
 
 @{
-    ViewBag.Title = "<<Plan View>>";
+    ViewBag.Title = @Model.Title;
 }
 
-<h2>title</h2>
+<h2>@Model.Title</h2>
+
+<h4>Description</h4>
+<p>@Model.Description</p>

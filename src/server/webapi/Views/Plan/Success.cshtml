@@ -1,8 +1,18 @@
-@* @model TModel *@
-
 @{
     ViewBag.Title = "Success Creating New Plan";
     Layout = "_Layout";
+    var hostBaseUrl = "https://" + @Context.Request.Host;
 }
 
-<h2>title</h2>
+<h2>You successfully created a plan</h2>
+<p>View and share the plan via this link:</p>
+@{
+    var showUrl = hostBaseUrl + @Url.Action("Index", "Plan", new {id = ViewBag.accessId});
+}
+@Html.ActionLink(showUrl, "Index", "Plan", new {id=ViewBag.accessId})
+
+<p>Edit the plan via this link:</p>
+@{
+    var authUrl = hostBaseUrl + @Url.Action("Index", "Plan", new {id = ViewBag.authToken});
+}
+@Html.ActionLink(authUrl, "Index", "Plan", new {id=ViewBag.authToken})

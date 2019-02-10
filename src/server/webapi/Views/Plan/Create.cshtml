@@ -1,8 +1,37 @@
-@* @model TModel *@
+@model PlanViewModel
 
 @{
     ViewBag.Title = "Create A Plan";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<h2 class="display-4">@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Plan"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Title)
+            @Html.ValidationMessageFor(m => m.Title)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Description)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Description)
+            @Html.ValidationMessageFor(m => m.Description)
+        </div>
+        
+        <p>
+            <input type="submit" value="Create"/>
+        </p>
+    </fieldset>
+}

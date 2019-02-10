@@ -1,4 +1,6 @@
+using domain;
 using Microsoft.AspNetCore.Mvc;
+using webapi.Models;
 
 namespace webapi.Controllers
 {
@@ -17,14 +19,19 @@ namespace webapi.Controllers
         /// SHOW CREATE Form
         /// </summary>
         [HttpPost]
-        public IActionResult Index()
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(PlanViewModel planVM)
         {
-            //TODO 1: insert the new plan in the DB
-            
-            //TODO 2: extract the plan id and forward it to the success-page
+            var plandBuidler = new PlanRepository();
+            var planAdress = plandBuidler.CreatePlan(planVM);
 
-            return RedirectToRoute("Default",
-                new {controller = "Plan", action = "Success"});
+            return RedirectToRoute("Default",new
+            {
+                controller = "Plan", 
+                action = "Success", 
+                id=planAdress.Item1, 
+                authToken=planAdress.Item2
+            });
         }
         
         /// <summary>
@@ -34,7 +41,14 @@ namespace webapi.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            return View();
+            var planRepo = new PlanRepository();
+            var plan = planRepo.GetPlan(id);
+            
+            return View(new PlanViewModel
+            {
+                Title = plan.Title,
+                Description = plan.Description
+            });
         }
 
         /// <summary>
@@ -45,6 +59,8 @@ namespace webapi.Controllers
         [HttpGet]
         public IActionResult Success(string id, string authToken)
         {
+            ViewBag.accessId = id;
+            ViewBag.authToken = authToken;
             return View();
         }
     }
