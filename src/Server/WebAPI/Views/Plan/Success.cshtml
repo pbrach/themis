@@ -1,0 +1,12 @@
+@model ViewModel.Models.SuccessViewModel
+
+@{
+    ViewBag.Title = "Success Creating New Plan";
+    Layout = "_Layout";
+    var hostBaseUrl = "https://" + @Context.Request.Host;
+}
+
+<h2>You successfully created a plan</h2>
+<p>View and share the plan via this link:</p>
+@{var showUrl = hostBaseUrl + @Url.Action("Index", "Plan", new {id = Model.Id});}
+@Html.ActionLink(showUrl, "Index", "Plan", new {id=Model.Id})
