@@ -8,12 +8,12 @@ namespace Persistence
     public class ThemisContext : DbContext
     {
         public DbSet<DbChore> Chores {get; set; }
-        
         public DbSet<DbPlan> Plans {get; set; }
+        
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=../Persistence/themis.db",  x => x.SuppressForeignKeyEnforcement());
+            optionsBuilder.UseSqlite("Data Source=../Persistence/themis.db;");
         }
 
 //        protected override void OnModelCreating(ModelBuilder modelBuilder)

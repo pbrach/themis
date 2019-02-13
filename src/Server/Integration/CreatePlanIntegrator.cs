@@ -1,21 +1,19 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using AppDomain.Entities;
 using AppDomain.Requests;
 using Persistence;
-using Persistence.DbTypes;
 using ViewModel.Models;
 
 namespace Integration
 {
-    public class CreatePlanMediator
+    public class CreatePlanIntegrator
     {
         private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
         private PlanViewModel PlanViewModel { get; }
-        private PlanRepository PlanRepo { get; } 
-        
-        public CreatePlanMediator(PlanViewModel planViewModel)
+        private PlanRepository PlanRepo { get; }
+
+        public CreatePlanIntegrator(PlanViewModel planViewModel)
         {
             PlanViewModel = planViewModel;
             PlanRepo = new PlanRepository(); // BAD: Dependency hiding!!!
@@ -24,8 +22,9 @@ namespace Integration
         public object Run()
         {
             Plan inputBlPlan = Mapper.Map<Plan>(PlanViewModel);
-            var request = new CreatePlanRequest(PlanRepo.DoesPlanIdExist, MappedStorePlan, inputBlPlan); // map Viewmodel-Data to BL-Data
             
+            var request = new CreatePlanRequest(PlanRepo.DoesPlanIdExist, PlanRepo.StoreNewPlan, inputBlPlan);
+
             var response = request.Handle();
 
             if (!string.IsNullOrEmpty(response.ErrorMessage))
@@ -34,12 +33,6 @@ namespace Integration
             }
 
             return new SuccessViewModel {Id = response.PlanId, AuthToken = string.Empty};
-        }
-
-        private bool MappedStorePlan(Plan blPlan)
-        {
-            DbPlan dbPlan = Mapper.Map<DbPlan>(blPlan);
-            return PlanRepo.StorePlan(dbPlan);
         }
     }
 }

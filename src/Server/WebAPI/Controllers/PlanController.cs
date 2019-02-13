@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var resultVm = new RetrievePlanMediator(id).Run();
+            var resultVm = new RetrievePlanIntegrator(id).Run();
             if (resultVm is PlanViewModel planViewModel)
             {
                 return View(planViewModel);  
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(PlanViewModel planVM)
         {
-            var resultVm = new CreatePlanMediator(planVM).Run();
+            var resultVm = new CreatePlanIntegrator(planVM).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
             {

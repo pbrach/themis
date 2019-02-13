@@ -12,10 +12,14 @@ namespace Integration
             cfg.CreateMissingTypeMaps = true;
             cfg.AllowNullDestinationValues = true;
 
-            cfg.CreateMap<DbPlan, Plan>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter()
+            cfg.CreateMap<DbPlan, Plan>()
+                .ReverseMap()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
             
-            cfg.CreateMap<PlanViewModel, Plan>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter()
+            cfg.CreateMap<PlanViewModel, Plan>()
+                .ReverseMap()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter();
         });       
     }

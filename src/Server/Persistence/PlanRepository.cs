@@ -1,4 +1,5 @@
 using System;
+using AppDomain.Entities;
 using Persistence.DbTypes;
 
 namespace Persistence
@@ -18,12 +19,18 @@ namespace Persistence
             return exists;        
         }
 
-        public bool StorePlan(DbPlan plan)
+        public bool StoreNewPlan(Plan plan)
         {
             var wasSuccess = false;
             using (var ctx = new ThemisContext())
             {
-                ctx.Plans.Add(plan);
+                ctx.Plans.Add(new DbPlan{
+                    Id = plan.Id,
+                    Title = plan.Title,
+                    Description = plan.Description,
+                    UserListText = string.Join(";", plan.Users),
+                    Chores = null
+                    });
                 var result = ctx.SaveChanges();
 
                 wasSuccess = result != 0;
@@ -32,15 +39,22 @@ namespace Persistence
             return wasSuccess;
         }
 
-        public DbPlan RetrivePlanById(string Id)
+        public Plan RetrievePlanById(string id)
         {
             DbPlan result = null;
             using (var ctx = new ThemisContext())
             {
-                result = ctx.Plans.Find(Id);
+                result = ctx.Plans.Find(id);
             }
 
-            return result;
+            return new Plan
+            {
+                Id = result.Id,
+                Title = result.Title,
+                Description = result.Description,
+                Users = result.UserListText.Split(";"),
+                Chores = null
+            };
         }
     }
 }
