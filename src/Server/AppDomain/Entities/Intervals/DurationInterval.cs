@@ -17,7 +17,7 @@ namespace AppDomain.Entities.Intervals
             return GetTurnNumber(today);
         }
 
-        private uint? GetTurnNumber(DateTime dayOfSomeTurn)
+        public uint? GetTurnNumber(DateTime dayOfSomeTurn)
         {
             var elapsedSinceStart = dayOfSomeTurn - StartDay;
 
@@ -32,13 +32,13 @@ namespace AppDomain.Entities.Intervals
             }
 
             var currentTurnNumber = elapsedSinceStart / Duration;
-            return (uint)currentTurnNumber;
+            return (uint) currentTurnNumber;
         }
 
         public override AssignmentPeriod GetAssignmentPeriod(uint turnNumber)
         {
-            var firstDayOfDuty = StartDay + (Duration - TimeSpan.FromDays(1)) * turnNumber;
-            var lastDayOfDuty = firstDayOfDuty + Duration;
+            var firstDayOfDuty = StartDay + Duration * turnNumber;
+            var lastDayOfDuty = firstDayOfDuty + (Duration - TimeSpan.FromDays(1));
 
             return new AssignmentPeriod
             {
@@ -51,19 +51,25 @@ namespace AppDomain.Entities.Intervals
         public override IEnumerable<AssignmentPeriod> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
         {
             var result = new List<AssignmentPeriod>();
-            
+            if (lastDay < StartDay)
+            {
+                return result;
+            }
+
             var activeDay = firstDay;
             while (activeDay <= lastDay)
             {
                 var turnNumber = GetTurnNumber(activeDay);
                 if (turnNumber == null)
                 {
-                    break;
+                    activeDay += Duration;
+                    continue;
                 }
 
                 var assPi = GetAssignmentPeriod(turnNumber.Value);
                 result.Add(assPi);
-                activeDay = assPi.LastActiveDay + TimeSpan.FromDays(1);
+
+                activeDay += Duration;
             }
 
             return result;

@@ -7,7 +7,7 @@ namespace AppDomain.Entities
     {
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
-        public string[] Users { get; } = { };
+        public string[] Users { get; set; } = { };
         public Interval Interval { get; set; }
 
         public string GetCurrentAssignedUser()
