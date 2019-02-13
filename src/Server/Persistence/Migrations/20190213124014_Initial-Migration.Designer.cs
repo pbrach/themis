@@ -8,8 +8,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ThemisContext))]
-    [Migration("20190211200728_initial-migration")]
-    partial class initialmigration
+    [Migration("20190213124014_Initial-Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("PlanId");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -42,12 +40,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000);
+                    b.Property<string>("Description");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150);
+                    b.Property<string>("Title");
 
                     b.Property<string>("UserListText");
 

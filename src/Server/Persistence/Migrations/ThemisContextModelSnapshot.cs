@@ -24,8 +24,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("PlanId");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -40,12 +38,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000);
+                    b.Property<string>("Description");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(150);
+                    b.Property<string>("Title");
 
                     b.Property<string>("UserListText");
 

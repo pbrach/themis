@@ -2,7 +2,7 @@
 
 namespace Persistence.Migrations
 {
-    public partial class initialmigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,8 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Title = table.Column<string>(maxLength: 150, nullable: false),
-                    Description = table.Column<string>(maxLength: 2000, nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     UserListText = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -28,7 +28,6 @@ namespace Persistence.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    PlanId = table.Column<string>(nullable: true),
                     DbPlanId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
