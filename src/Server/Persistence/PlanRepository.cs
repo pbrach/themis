@@ -47,14 +47,15 @@ namespace Persistence
                 result = ctx.Plans.Find(id);
             }
 
-            return new Plan
+            var plan = new Plan
             {
                 Id = result.Id,
                 Title = result.Title,
-                Description = result.Description,
-                Users = result.UserListText.Split(";"),
-                Chores = null
+                Description = result.Description
             };
+            plan.AddRange(result.UserListText.Split(";"));
+
+            return plan;
         }
     }
 }
