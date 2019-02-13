@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration", "Integration\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{8F1352BD-4E52-4D16-901E-8EC94324CF69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDomain.UnitTests", "AppDomain.UnitTests\AppDomain.UnitTests.csproj", "{C57F2299-AF00-4747-B39A-C38C57431A67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{8F1352BD-4E52-4D16-901E-8EC94324CF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F1352BD-4E52-4D16-901E-8EC94324CF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F1352BD-4E52-4D16-901E-8EC94324CF69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C57F2299-AF00-4747-B39A-C38C57431A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C57F2299-AF00-4747-B39A-C38C57431A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C57F2299-AF00-4747-B39A-C38C57431A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C57F2299-AF00-4747-B39A-C38C57431A67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
