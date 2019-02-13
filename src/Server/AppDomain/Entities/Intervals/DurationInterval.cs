@@ -3,24 +3,35 @@ using System.Collections.Generic;
 
 namespace AppDomain.Entities.Intervals
 {
+    /// <summary>
+    /// Duration Intervals:
+    /// - some duration in days (min 1 day) for which a user is assigned is given
+    /// - directly after the duration ends, the next assignement interval begins
+    ///
+    /// </summary>
     public class DurationInterval : Interval
     {
         public override uint? GetCurrentTurnNumber()
         {
             var today = DateTime.Now.Date;
-            var elapsed = today - StartDay;
+            return GetTurnNumber(today);
+        }
 
-            if (elapsed < TimeSpan.Zero)
+        private uint? GetTurnNumber(DateTime dayOfSomeTurn)
+        {
+            var elapsedSinceStart = dayOfSomeTurn - StartDay;
+
+            if (elapsedSinceStart < TimeSpan.Zero)
             {
                 return null; // the StartDay is in the future, so it is no ones turn yet!
             }
 
-            if (elapsed < Duration)
+            if (elapsedSinceStart < Duration)
             {
                 return 0;
             }
 
-            var currentTurnNumber = elapsed / Duration;
+            var currentTurnNumber = elapsedSinceStart / Duration;
             return (uint)currentTurnNumber;
         }
 
@@ -39,7 +50,23 @@ namespace AppDomain.Entities.Intervals
 
         public override IEnumerable<AssignmentPeriod> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
         {
-            throw new NotImplementedException();
+            var result = new List<AssignmentPeriod>();
+            
+            var activeDay = firstDay;
+            while (activeDay <= lastDay)
+            {
+                var turnNumber = GetTurnNumber(activeDay);
+                if (turnNumber == null)
+                {
+                    break;
+                }
+
+                var assPi = GetAssignmentPeriod(turnNumber.Value);
+                result.Add(assPi);
+                activeDay = assPi.LastActiveDay + TimeSpan.FromDays(1);
+            }
+
+            return result;
         }
     }
 }

@@ -17,15 +17,17 @@ namespace AppDomain.Entities
             {
                 return "No one: Chore did not start yet";
             }
+
+            var assignmentId = turnNumber.Value % Users.Length;
             
-            return Users[turnNumber.Value];
+            return Users[assignmentId];
         }
 
         public AssignmentPeriod GetCurrentAssignmentPeriod()
         {
             var turnNumber = Interval.GetCurrentTurnNumber();
             
-            if (!turnNumber.HasValue)
+            if (turnNumber == null)
             {
                 return Interval.GetAssignmentPeriod(0);
             }
