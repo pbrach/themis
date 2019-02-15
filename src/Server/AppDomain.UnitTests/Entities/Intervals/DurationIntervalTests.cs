@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using AppDomain.Entities.Intervals;
 using Xunit;
-using Xunit.Sdk;
 
 namespace AppDomain.UnitTests.Entities.Intervals
 {
