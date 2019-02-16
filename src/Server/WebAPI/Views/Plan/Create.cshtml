@@ -1,4 +1,3 @@
-@using System.Linq
 @model WebAPI.Models.PlanViewModel
 
 @{
@@ -11,90 +10,83 @@
 @using (Html.BeginForm("Index", "Plan",
     null, FormMethod.Post, true, null))
 {
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true)
-
-
-        <div class="form-group">
-            <div class="col-md-2 control-label">
-                @Html.LabelFor(m => m.Title)
-            </div>
-            <div class="editor-field col-md-10">
-                @Html.EditorFor(m => m.Title)
-                @Html.ValidationMessageFor(m => m.Title)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-2 control-label">
-                @Html.LabelFor(m => m.Description)
-            </div>
-            <div class="editor-field col-md-10">
-                @Html.EditorFor(m => m.Description)
-                @Html.ValidationMessageFor(m => m.Description)
-            </div>
-        </div>
-
-
-        <fieldset>
-            <div class="add-users">
-                <div class="add-user-form d-block">
-                    <div class="form-group form-inline inner-user">
-                        <input name="Users.Name" placeholder="User Name" class="form-control"/>
-                        <input name="Users.Number" value="7"/>
-                        <button class="btn btn-remove-user">-</button>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-add-user">Add User</button>
-        </fieldset>
-
-
-        <p>
-            <input id="main-submit" class="btn bg-primary btn-lg" type="submit" value="Create"/>
-        </p>
-
+    <div class="form-group row col-sm-9">
+        <input type="text" class="form-control form-control-lg" id="main-1"
+               name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
     </div>
+
+    <div class="form-group row  col-sm-9">
+        <textarea rows="3" class="form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
+    </div>
+
+
+    <div class="add-user-form form-group">
+        <div class="form-inline add-user-group user-form-group">
+            <input class="form-control add-user-input" name="Users.Name" placeholder="new user..."/>
+        </div>
+    </div>
+
+
+    <input id="main-submit" class="form-control btn bg-primary btn-lg" type="submit" value="Create"/>
 }
 
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function() {
-            var wrapper = $('.add-users');
-            var addUserTemplate = $('.add-user-form').clone(true);
 
-            $(".btn-add-user").click(function(e) {
-                e.preventDefault();
+            function SuppressEnter(e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
 
-                var clone = addUserTemplate.clone(true);
+            // Do not trigger submit easily (via enter press)
+            $("form").keypress(SuppressEnter);
 
-                clone.appendTo(wrapper);
-            });
+            var templateString =
+'<div class="form-inline user-form-group">' +
+    '<input class="form-control normal-user-input" name="Users.Name"/>' +
+    '<button class="form-control btn btn-remove-user">' +
+        '<i class="far fa-trash-alt"></i>' +
+    '</button>' +
+'</div>';
+            var addUserTemplate = $($.parseHTML(templateString));
+            addUserTemplate.keypress(SuppressEnter);
+            addUserTemplate.keyup(SuppressEnter);
+            addUserTemplate.keydown(SuppressEnter);
 
-            $('.add-users').on('click',
+            // Add USER Action
+            $(".add-user-form").on('keyup.add-user-input',
+                function(e) {
+                    if (e.keyCode != 13)
+                        return;
+
+                    e.preventDefault();
+                    var clone = addUserTemplate.clone(true);
+                    var inp = $(clone.children()[0]);
+                    var adder = $('.add-user-input');
+                    inp.val(adder.val());
+                    adder.val("");
+  
+                    clone.insertBefore('.add-user-group');
+                });
+
+            // Remove USER Action
+            $('.add-user-form').on('click',
                 '.btn-remove-user',
                 function(e) {
                     e.preventDefault();
-                    $(this).closest('.add-user-form').remove();
+                    $(this).closest('.user-form-group').remove();
                     return false;
                 });
 
+            // List Data Preparation
             $('form').submit(function(e) {
-                var inners = wrapper.find('.inner-user');
-                inners.each(function(index) {
+                $('.inner-user').each(function(index) {
                     var inputs = $(this).children().toArray();
                     $(inputs[0]).attr('name', `Users[${index}].Name`);
-                    $(inputs[1]).attr('name', `Users[${index}].Number`);
                 });
-                
-//                               
-//                $.ajax("/Plan",
-//                    {
-//                        method: "POST",
-//                        data: $('form').serialize()
-//                    });
-//
-//                e.preventDefault();
             });
         });
     </script>
