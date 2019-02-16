@@ -44,6 +44,7 @@
             // Do not trigger submit easily (via enter press)
             $("form").keypress(SuppressEnter);
 
+            // Prepare the User-Edit-Template
             var templateString =
 '<div class="form-inline user-form-group">' +
     '<input class="form-control normal-user-input" name="Users.Name"/>' +
@@ -63,13 +64,13 @@
                         return;
 
                     e.preventDefault();
-                    var clone = addUserTemplate.clone(true);
-                    var inp = $(clone.children()[0]);
-                    var adder = $('.add-user-input');
-                    inp.val(adder.val());
-                    adder.val("");
+                    var dynamicClone = addUserTemplate.clone(true);
+                    var cloneUserInput = $(dynamicClone.children()[0]);
+                    var userAdderInput = $('.add-user-input');
+                    cloneUserInput.val(userAdderInput.val());
+                    userAdderInput.val("");
   
-                    clone.insertBefore('.add-user-group');
+                    dynamicClone.insertBefore('.add-user-group');
                 });
 
             // Remove USER Action
@@ -83,9 +84,10 @@
 
             // List Data Preparation
             $('form').submit(function(e) {
-                $('.inner-user').each(function(index) {
-                    var inputs = $(this).children().toArray();
-                    $(inputs[0]).attr('name', `Users[${index}].Name`);
+                $('.add-user-input').remove();
+                
+                $('.normal-user-input').each(function(index) {
+                    $(this).attr('name', `Users[${index}].Name`);
                 });
             });
         });
