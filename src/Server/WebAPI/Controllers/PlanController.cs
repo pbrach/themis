@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using AppDomain.Requests;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.Models;
 using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
 using PlanViewModel = WebAPI.Models.PlanViewModel;
 using RetrievePlanIntegrator = WebAPI.Integrations.RetrievePlanIntegrator;
