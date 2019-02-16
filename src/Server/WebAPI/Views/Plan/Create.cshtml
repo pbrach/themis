@@ -31,6 +31,15 @@
             </div>
         </div>
     </div>
+    
+    <div class="col-12 w100">
+        <div class="add-chores-form form-group">
+            <div class="form-inline add-chores-group chores-form-group">
+                <input class="form-control add-chore-input w-100" name="Chores.Title" placeholder="add user..."/>
+                <input class="form-control add-chore-input w-100" name="Chores.Description" placeholder="add user..."/>
+            </div>
+        </div>
+    </div>
 
     <div class="col text-center">
         <button id="main-submit" class="w-50 form-control btn bg-primary btn-lg">Create</button>
@@ -42,7 +51,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            function SuppressEnter(e) {
+            function suppressEnter(e) {
                 if (e.keyCode == 13) {
                     e.preventDefault();
                     return false;
@@ -50,7 +59,7 @@
             }
 
             // Do not trigger submit easily (via enter press)
-            $("form").keypress(SuppressEnter);
+            $("form").keypress(suppressEnter);
 
             // Prepare the User-Edit-Template
             var templateString =
@@ -61,9 +70,9 @@
                     '</button>' +
                     '</div>';
             var addUserTemplate = $($.parseHTML(templateString));
-            addUserTemplate.keypress(SuppressEnter);
-            addUserTemplate.keyup(SuppressEnter);
-            addUserTemplate.keydown(SuppressEnter);
+            addUserTemplate.keypress(suppressEnter);
+            addUserTemplate.keyup(suppressEnter);
+            addUserTemplate.keydown(suppressEnter);
 
             // Add USER Action
             $(".add-user-form").on('keyup.add-user-input',
