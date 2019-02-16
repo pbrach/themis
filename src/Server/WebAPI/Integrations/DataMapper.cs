@@ -11,12 +11,7 @@ namespace WebAPI.Integrations
         {
             cfg.CreateMissingTypeMaps = true;
             cfg.AllowNullDestinationValues = true;
-
-            cfg.CreateMap<DbPlan, Plan>()
-                .ReverseMap()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter()
-                .IgnoreAllPropertiesWithAnInaccessibleSetter();
-            
+           
             cfg.CreateMap<PlanViewModel, Plan>()
                 .ReverseMap()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
