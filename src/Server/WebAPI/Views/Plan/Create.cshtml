@@ -5,30 +5,38 @@
     Layout = "_Layout";
 }
 
-<h2 class="display-4">@ViewBag.Title</h2>
+<h2 class="text-center display-6">@ViewBag.Title</h2>
 
+<div class="pt-5">
 @using (Html.BeginForm("Index", "Plan",
     null, FormMethod.Post, true, null))
 {
-    <div class="form-group row col-sm-9">
-        <input type="text" class="form-control form-control-lg" id="main-1"
-               name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
-    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group form-inline">
+                <input type="text" class="w-100 form-control form-control-lg" id="main-1"
+                       name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
+            </div>
 
-    <div class="form-group row  col-sm-9">
-        <textarea rows="3" class="form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
-    </div>
+            <div class="form-group form-inline ">
+                <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
+            </div>
+        </div>
 
-
-    <div class="add-user-form form-group">
-        <div class="form-inline add-user-group user-form-group">
-            <input class="form-control add-user-input" name="Users.Name" placeholder="new user..."/>
+        <div class="col-4 w100">
+            <div class="add-user-form form-group">
+                <div class="form-inline add-user-group user-form-group">
+                    <input class="form-control add-user-input w-100" name="Users.Name" placeholder="add user..."/>
+                </div>
+            </div>
         </div>
     </div>
 
-
-    <input id="main-submit" class="form-control btn bg-primary btn-lg" type="submit" value="Create"/>
+    <div class="col text-center">
+        <button id="main-submit" class="w-50 form-control btn bg-primary btn-lg">Create</button>
+    </div>
 }
+</div>
 
 @section Scripts {
     <script type="text/javascript">
@@ -46,12 +54,12 @@
 
             // Prepare the User-Edit-Template
             var templateString =
-'<div class="form-inline user-form-group">' +
-    '<input class="form-control normal-user-input" name="Users.Name"/>' +
-    '<button class="form-control btn btn-remove-user">' +
-        '<i class="far fa-trash-alt"></i>' +
-    '</button>' +
-'</div>';
+                '<div class="form-inline user-form-group">' +
+                    '<input class="form-control normal-user-input" name="Users.Name"/>' +
+                    '<button class="form-control btn btn-remove-user">' +
+                    '<i class="far fa-trash-alt"></i>' +
+                    '</button>' +
+                    '</div>';
             var addUserTemplate = $($.parseHTML(templateString));
             addUserTemplate.keypress(SuppressEnter);
             addUserTemplate.keyup(SuppressEnter);
@@ -69,7 +77,7 @@
                     var userAdderInput = $('.add-user-input');
                     cloneUserInput.val(userAdderInput.val());
                     userAdderInput.val("");
-  
+
                     dynamicClone.insertBefore('.add-user-group');
                 });
 
@@ -85,7 +93,7 @@
             // List Data Preparation
             $('form').submit(function(e) {
                 $('.add-user-input').remove();
-                
+
                 $('.normal-user-input').each(function(index) {
                     $(this).attr('name', `Users[${index}].Name`);
                 });
