@@ -1,3 +1,4 @@
+@using System.Linq
 @model WebAPI.Models.PlanViewModel
 
 @{
@@ -7,31 +8,94 @@
 
 <h2 class="display-4">@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Index", "Plan"))
+@using (Html.BeginForm("Index", "Plan",
+    null, FormMethod.Post, true, null))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
 
-    <fieldset>
-        
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Title)
+
+        <div class="form-group">
+            <div class="col-md-2 control-label">
+                @Html.LabelFor(m => m.Title)
+            </div>
+            <div class="editor-field col-md-10">
+                @Html.EditorFor(m => m.Title)
+                @Html.ValidationMessageFor(m => m.Title)
+            </div>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(m => m.Title)
-            @Html.ValidationMessageFor(m => m.Title)
+
+        <div class="form-group">
+            <div class="col-md-2 control-label">
+                @Html.LabelFor(m => m.Description)
+            </div>
+            <div class="editor-field col-md-10">
+                @Html.EditorFor(m => m.Description)
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
         </div>
-        
-        <div class="editor-label">
-            @Html.LabelFor(m => m.Description)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(m => m.Description)
-            @Html.ValidationMessageFor(m => m.Description)
-        </div>
-        
+
+
+        <fieldset>
+            <div class="add-users">
+                <div class="add-user-form d-block">
+                    <div class="form-group form-inline inner-user">
+                        <input name="Users.Name" placeholder="User Name" class="form-control"/>
+                        <input name="Users.Number" value="7"/>
+                        <button class="btn btn-remove-user">-</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-add-user">Add User</button>
+        </fieldset>
+
+
         <p>
-            <input type="submit" value="Create"/>
+            <input id="main-submit" class="btn bg-primary btn-lg" type="submit" value="Create"/>
         </p>
-    </fieldset>
+
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var wrapper = $('.add-users');
+            var addUserTemplate = $('.add-user-form').clone(true);
+
+            $(".btn-add-user").click(function(e) {
+                e.preventDefault();
+
+                var clone = addUserTemplate.clone(true);
+
+                clone.appendTo(wrapper);
+            });
+
+            $('.add-users').on('click',
+                '.btn-remove-user',
+                function(e) {
+                    e.preventDefault();
+                    $(this).closest('.add-user-form').remove();
+                    return false;
+                });
+
+            $('form').submit(function(e) {
+                var inners = wrapper.find('.inner-user');
+                inners.each(function(index) {
+                    var inputs = $(this).children().toArray();
+                    $(inputs[0]).attr('name', `Users[${index}].Name`);
+                    $(inputs[1]).attr('name', `Users[${index}].Number`);
+                });
+                
+//                               
+//                $.ajax("/Plan",
+//                    {
+//                        method: "POST",
+//                        data: $('form').serialize()
+//                    });
+//
+//                e.preventDefault();
+            });
+        });
+    </script>
 }

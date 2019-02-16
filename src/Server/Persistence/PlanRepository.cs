@@ -28,7 +28,7 @@ namespace Persistence
                     Id = plan.Id,
                     Title = plan.Title,
                     Description = plan.Description,
-                    UserListText = string.Join(";", plan.AllUsers),
+                    UserListText = string.Join(";", plan.Users),
                     Chores = null
                     });
                 var result = ctx.SaveChanges();

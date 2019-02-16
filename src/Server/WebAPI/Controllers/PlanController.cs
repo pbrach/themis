@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using AppDomain.Requests;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Models;
 using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
 using PlanViewModel = WebAPI.Models.PlanViewModel;
 using RetrievePlanIntegrator = WebAPI.Integrations.RetrievePlanIntegrator;
@@ -29,7 +32,6 @@ namespace WebAPI.Controllers
         /// CREATE Plan
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Index(PlanViewModel planVM)
         {
             var resultVm = new CreatePlanIntegrator(planVM).Run();
@@ -50,6 +52,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var intervalTypes = IntervalService.GetIntervalFriendlyNames();
             return View();
         }
         
