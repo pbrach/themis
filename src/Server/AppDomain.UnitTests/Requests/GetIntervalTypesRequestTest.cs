@@ -8,7 +8,7 @@ namespace AppDomain.UnitTests.Requests
         [Fact]
         public void ReturnsAllUsableIntervalTypes()
         {
-            var results = GetIntervalTypesRequest.GetTypes();
+            var results = IntervalService.GetIntervalFriendlyNames();
             
             
         }
