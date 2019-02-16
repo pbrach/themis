@@ -1,7 +1,6 @@
 ﻿using AppDomain.Entities;
 using AppDomain.Requests;
 using AutoMapper;
-using Integration;
 using Persistence;
 using ErrorViewModel = WebAPI.Models.ErrorViewModel;
 using PlanViewModel = WebAPI.Models.PlanViewModel;

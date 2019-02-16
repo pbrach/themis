@@ -1,6 +1,5 @@
 using AppDomain.Entities;
 using AutoMapper;
-using Persistence.DbTypes;
 using PlanViewModel = WebAPI.Models.PlanViewModel;
 
 namespace WebAPI.Integrations
