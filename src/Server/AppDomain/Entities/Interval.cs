@@ -8,8 +8,12 @@ namespace AppDomain.Entities
     {
         public TimeSpan Duration { get; set; } = TimeSpan.Zero;
         public DateTime StartDay { get; set; } = DateTime.MinValue;
+
+        public abstract string FriendlyName { get; }
         
         public abstract uint? GetCurrentTurnNumber();
+
+        public abstract uint? GetTurnNumber(DateTime date);
 
         public abstract AssignmentPeriod GetAssignmentPeriod(uint turnNumber);
 

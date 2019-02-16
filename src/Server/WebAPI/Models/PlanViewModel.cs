@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ViewModel.Models
+namespace WebAPI.Models
 {
     public class PlanViewModel
     {
-        public string Id { get; set; }
-
         [MaxLength(150)]
         [Required]
         public string Title { get; set; }

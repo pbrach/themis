@@ -1,4 +1,4 @@
-namespace ViewModel.Models
+namespace WebAPI.Models
 {
     public class SuccessViewModel
     {

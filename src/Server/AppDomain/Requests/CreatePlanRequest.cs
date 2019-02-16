@@ -22,7 +22,7 @@ namespace AppDomain.Requests
 
         public CreatePlanResponse Handle()
         {
-            var planDataErrorMsg = getPlanDataError(_plan);
+            var planDataErrorMsg = ValidatePlanData(_plan);
             if (planDataErrorMsg != null)
             {
                 return new CreatePlanResponse {ErrorMessage = planDataErrorMsg};
@@ -62,7 +62,7 @@ namespace AppDomain.Requests
             return null;
         }
 
-        private string getPlanDataError(Plan plan)
+        private static string ValidatePlanData(Plan plan)
         {
             if (plan == null)
             {

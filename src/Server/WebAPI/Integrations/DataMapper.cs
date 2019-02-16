@@ -1,9 +1,9 @@
-using AutoMapper;
 using AppDomain.Entities;
+using AutoMapper;
 using Persistence.DbTypes;
-using ViewModel.Models;
+using PlanViewModel = WebAPI.Models.PlanViewModel;
 
-namespace Integration
+namespace WebAPI.Integrations
 {
     public static class DataMapper
     {

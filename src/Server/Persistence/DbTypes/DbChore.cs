@@ -1,3 +1,5 @@
+using System;
+
 namespace Persistence.DbTypes
 {
     public class DbChore
@@ -9,5 +11,11 @@ namespace Persistence.DbTypes
         public string Description { get; set; }
         
         public string DbPlanId { get; set; }
+        
+        public string ChoreUsers { get; set; }
+        
+        public TimeSpan Duration { get; set; } = TimeSpan.Zero;
+        
+        public DateTime StartDay { get; set; } = DateTime.MinValue;
     }
 }

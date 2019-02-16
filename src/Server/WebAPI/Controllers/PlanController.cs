@@ -1,6 +1,8 @@
-using Integration;
 using Microsoft.AspNetCore.Mvc;
-using ViewModel.Models;
+using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
+using PlanViewModel = WebAPI.Models.PlanViewModel;
+using RetrievePlanIntegrator = WebAPI.Integrations.RetrievePlanIntegrator;
+using SuccessViewModel = WebAPI.Models.SuccessViewModel;
 
 namespace WebAPI.Controllers
 {

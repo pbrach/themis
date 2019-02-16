@@ -1,4 +1,3 @@
-using System;
 using AppDomain.Entities.Intervals;
 
 namespace AppDomain.Entities
@@ -7,6 +6,10 @@ namespace AppDomain.Entities
     {
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
+        
+        /// <summary>
+        /// Users that are assigned to this chore (might not be all users from the plan)
+        /// </summary>
         public string[] Users { get; set; } = { };
         public Interval Interval { get; set; }
 

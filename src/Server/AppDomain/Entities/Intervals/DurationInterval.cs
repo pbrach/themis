@@ -11,15 +11,17 @@ namespace AppDomain.Entities.Intervals
     /// </summary>
     public class DurationInterval : Interval
     {
+        public override string FriendlyName => "Duration Interval";
+
         public override uint? GetCurrentTurnNumber()
         {
             var today = DateTime.Now.Date;
             return GetTurnNumber(today);
         }
 
-        public uint? GetTurnNumber(DateTime dayOfSomeTurn)
+        public override uint? GetTurnNumber(DateTime date)
         {
-            var elapsedSinceStart = dayOfSomeTurn - StartDay;
+            var elapsedSinceStart = date - StartDay;
 
             if (elapsedSinceStart < TimeSpan.Zero)
             {

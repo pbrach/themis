@@ -1,15 +1,16 @@
-using AutoMapper;
 using AppDomain.Requests;
+using AutoMapper;
 using Persistence;
-using ViewModel.Models;
+using ErrorViewModel = WebAPI.Models.ErrorViewModel;
+using PlanViewModel = WebAPI.Models.PlanViewModel;
 
-namespace Integration
+namespace WebAPI.Integrations
 {
     public class RetrievePlanIntegrator
     {
         private readonly string _id;
         private readonly PlanRepository _planRepo;
-        private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
+        private static readonly IMapper Mapper = WebAPI.Integrations.DataMapper.MapperConfig.CreateMapper();
 
         public RetrievePlanIntegrator(string id)
         {

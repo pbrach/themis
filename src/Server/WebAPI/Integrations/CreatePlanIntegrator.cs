@@ -1,10 +1,13 @@
-﻿using AutoMapper;
-using AppDomain.Entities;
+﻿using AppDomain.Entities;
 using AppDomain.Requests;
+using AutoMapper;
+using Integration;
 using Persistence;
-using ViewModel.Models;
+using ErrorViewModel = WebAPI.Models.ErrorViewModel;
+using PlanViewModel = WebAPI.Models.PlanViewModel;
+using SuccessViewModel = WebAPI.Models.SuccessViewModel;
 
-namespace Integration
+namespace WebAPI.Integrations
 {
     public class CreatePlanIntegrator
     {
@@ -21,7 +24,7 @@ namespace Integration
 
         public object Run()
         {
-            Plan inputBlPlan = Mapper.Map<Plan>(PlanViewModel);
+            var inputBlPlan = Mapper.Map<Plan>(PlanViewModel);
             
             var request = new CreatePlanRequest(PlanRepo.DoesPlanIdExist, PlanRepo.StoreNewPlan, inputBlPlan);
 

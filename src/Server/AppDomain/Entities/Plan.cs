@@ -12,13 +12,13 @@ namespace AppDomain.Entities
 
         public ICollection<Chore> Chores { get; } = new List<Chore>();
         
-        public ICollection<string> Users { get; } = new List<string>();
+        public ICollection<string> AllUsers { get; } = new List<string>();
 
         public void AddRange(IEnumerable<string> users)
         {
             foreach (var user in users)
             {
-                Users.Add(user);
+                AllUsers.Add(user);
             }
         }
     }
