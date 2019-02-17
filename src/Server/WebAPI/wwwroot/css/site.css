@@ -68,3 +68,11 @@ div.add-user-form.form-group {
     margin: 0 0 1.5em 0;
 
 }
+
+label {
+  color: #6C757D;
+}
+
+.chores-form{
+  background: aliceblue;
+}

@@ -1,6 +1,7 @@
 @model WebAPI.Models.PlanViewModel
 
 @{
+    var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
     ViewBag.Title = "Create A Plan";
     Layout = "_Layout";
 }
@@ -8,48 +9,54 @@
 <h2 class="text-center display-6">@ViewBag.Title</h2>
 
 <div class="pt-5">
-@using (Html.BeginForm("Index", "Plan",
-    null, FormMethod.Post, true, null))
-{
-    <div class="row">
-        <div class="col-8">
-            <div class="form-group form-inline">
-                <input type="text" class="w-100 form-control form-control-lg" id="main-1"
-                       name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
+    @using (Html.BeginForm("Index", "Plan",
+        null, FormMethod.Post, true, null))
+    {
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group form-inline">
+                    <input type="text" class="w-100 form-control form-control-lg" id="main-1"
+                           name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
+                </div>
+
+                <div class="form-group form-inline ">
+                    <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
+                </div>
             </div>
 
-            <div class="form-group form-inline ">
-                <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
-            </div>
-        </div>
-
-        <div class="col-4 w100">
-            <div class="add-user-form form-group">
-                <div class="form-inline add-user-group user-form-group">
-                    <input class="form-control add-user-input w-100" name="Users.Name" placeholder="add user..."/>
+            <div class="col-4">
+                <div class="add-user-form form-group">
+                    <div class="form-inline add-user-group user-form-group">
+                        <input class="form-control add-user-input w-100" name="Users.Name" placeholder="add user..."/>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div class="col-12 w100">
-        <div class="add-chores-form form-group">
-            <div class="form-inline add-chores-group chores-form-group">
-                <input type="text"           class="form-control" name="Chores[0].Title" placeholder="Title / what to do"/>
-                <input type="text"           class="form-control" name="Chores[0].Description" placeholder="Detailed description"/>
-                <input type="text"           class="form-control" name="Chores[0].DayDuration" placeholder="How long one is assigned?"/>
-                <input type="datetime-local" class="form-control" name="Chores[0].StartDay" step="86400" />
-                <div class="assignees-form">
-                    <input type="text" class="form-control" name="Chores[0].AssignedUsers" placeholder="users separated by ';'"/>
+
+        <div class="col-12">
+            <div class="add-chores-form chores-form p-5 form-group">
+                <div class="add-chores-group chores-form-group">
+                    <div class="form-group form-row justify-content-between align-top">
+                        <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
+                        <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Chores[0].AssignedUsers" placeholder="Assigned users separated by ';'"/>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="form-label mr-3">
+                            Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                        </label>
+                        <input type="text" class="form-control" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col text-center">
-        <button id="main-submit" class="w-50 form-control btn bg-primary btn-lg">Create</button>
-    </div>
-}
+        <div class="col text-center">
+            <input type="submit" id="main-submit" class="w-25 form-control btn btn-primary btn-lg" value="Create">
+        </div>
+    }
 </div>
 
 @section Scripts {
