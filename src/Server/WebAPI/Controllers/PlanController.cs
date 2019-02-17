@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
             }
             
             // ERROR Handling
-            return RedirectToAction("Index", "Home");
+            return View("Error", resultVm);
         }
         
         /// <summary>
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
             }
             
             // ERROR Handling
-            return RedirectToAction("Index", "Home");
+            return View("Error", resultVm);
         }
 
         
