@@ -84,3 +84,8 @@ label {
 .chores-form{
   background: aliceblue;
 }
+
+input.normal-user-input:focus {
+    outline: none;
+    box-shadow: none;
+}
