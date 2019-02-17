@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AppDomain.Requests;
 
 namespace WebAPI.Models
 {
@@ -9,7 +11,7 @@ namespace WebAPI.Models
         public string Description { get; set; } = "";
         public int DayDuration { get; set; } =  1;
         public DateTime StartDay { get; set; } = DateTime.Now;
-        public string IntervalType { get; set; }
-        public string AssignedUsers { get; set; }
+        public string IntervalType { get; set; } = IntervalService.GetIntervalFriendlyNames().First();
+        public ICollection<string> AssignedUsers { get; set; } = new List<string>(); 
     }
 }

@@ -23,14 +23,6 @@
                     <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
                 </div>
             </div>
-
-            <div class="col-4">
-                <div class="add-user-form form-group">
-                    <div class="form-inline add-user-group user-form-group">
-                        <input class="form-control add-user-input w-100" name="Users.Name" placeholder="add user..."/>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="col-12">
@@ -40,9 +32,13 @@
                         <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
                         <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="Chores[0].AssignedUsers" placeholder="Assigned users separated by ';'"/>
+       
+                    <div class="add-user-form row form-group">
+                        <div class="form-inline add-user-group user-form-group mt-2">
+                            <input class="form-control add-user-input w-100" placeholder="add user..."/>
+                        </div>
                     </div>
+                    
                     <div class="form-group form-inline">
                         <label class="form-label mr-3">
                             Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
@@ -75,12 +71,12 @@
 
             // Prepare the User-Edit-Template
             var templateString =
-                '<div class="form-inline user-form-group">' +
-                    '<input class="form-control normal-user-input" name="Users.Name"/>' +
-                    '<button class="form-control btn btn-remove-user">' +
-                    '<i class="far fa-trash-alt"></i>' +
+                '<div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">' +
+                    '<input class="form-control normal-user-input p-0 bg-light" />' +
+                    '<button class="form-control btn btn-remove-user bg-light">' +
+                        '<i class="fas fa-times"></i>' +
                     '</button>' +
-                    '</div>';
+                '</div>';
             var addUserTemplate = $($.parseHTML(templateString));
             addUserTemplate.keypress(suppressEnter);
             addUserTemplate.keyup(suppressEnter);
@@ -91,12 +87,17 @@
                 function(e) {
                     if (e.keyCode != 13)
                         return;
-
                     e.preventDefault();
+                    var userAdderInput = $('.add-user-input');
+                    var userName = userAdderInput.val().trim();
+                    if (userName === "")
+                        return;
+                    
                     var dynamicClone = addUserTemplate.clone(true);
                     var cloneUserInput = $(dynamicClone.children()[0]);
-                    var userAdderInput = $('.add-user-input');
-                    cloneUserInput.val(userAdderInput.val());
+                    
+                    cloneUserInput.val(userName);
+                    cloneUserInput.attr('size', userName.length );
                     userAdderInput.val("");
 
                     dynamicClone.insertBefore('.add-user-group');
@@ -116,7 +117,7 @@
                 $('.add-user-input').remove();
 
                 $('.normal-user-input').each(function(index) {
-                    $(this).attr('name', `Users[${index}]`);
+                    $(this).attr('name', `Chores[0].AssignedUsers[${index}]`);
                 });
             });
         });
