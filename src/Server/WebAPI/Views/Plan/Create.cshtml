@@ -35,8 +35,13 @@
     <div class="col-12 w100">
         <div class="add-chores-form form-group">
             <div class="form-inline add-chores-group chores-form-group">
-                <input class="form-control add-chore-input w-100" name="Chores.Title" placeholder="add user..."/>
-                <input class="form-control add-chore-input w-100" name="Chores.Description" placeholder="add user..."/>
+                <input type="text"           class="form-control" name="Chores[0].Title" placeholder="Title / what to do"/>
+                <input type="text"           class="form-control" name="Chores[0].Description" placeholder="Detailed description"/>
+                <input type="text"           class="form-control" name="Chores[0].DayDuration" placeholder="How long one is assigned?"/>
+                <input type="datetime-local" class="form-control" name="Chores[0].StartDay" step="86400" />
+                <div class="assignees-form">
+                    <input type="text" class="form-control" name="Chores[0].AssignedUsers" placeholder="users separated by ';'"/>
+                </div>
             </div>
         </div>
     </div>
