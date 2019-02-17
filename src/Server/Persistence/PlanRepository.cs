@@ -28,7 +28,7 @@ namespace Persistence
                     Id = plan.Id,
                     Title = plan.Title,
                     Description = plan.Description,
-                    UserListText = string.Join(";", plan.Users),
+                    UserListText = null,
                     Chores = null
                     });
                 var result = ctx.SaveChanges();
@@ -53,7 +53,6 @@ namespace Persistence
                 Title = result.Title,
                 Description = result.Description
             };
-            plan.AddRange(result.UserListText.Split(";"));
 
             return plan;
         }

@@ -11,15 +11,5 @@ namespace AppDomain.Entities
         public string Description { get; set; }
 
         public ICollection<Chore> Chores { get; } = new List<Chore>();
-        
-        public ICollection<string> Users { get; } = new List<string>();
-
-        public void AddRange(IEnumerable<string> users)
-        {
-            foreach (var user in users)
-            {
-                Users.Add(user);
-            }
-        }
     }
 }
