@@ -7,9 +7,9 @@ namespace WebAPI.Models
     {
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
-        public TimeSpan DaysDuration { get; set; } = TimeSpan.Zero;
+        public int DayDuration { get; set; } =  1;
         public DateTime StartDay { get; set; } = DateTime.Now;
         public string IntervalType { get; set; }
-        public ICollection<string> AssignedUsers { get; set; } = new List<string>();
+        public string AssignedUsers { get; set; }
     }
 }
