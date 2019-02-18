@@ -37,22 +37,22 @@ namespace AppDomain.Entities.Intervals
             return (uint) currentTurnNumber;
         }
 
-        public override AssignmentPeriod GetAssignmentPeriod(uint turnNumber)
+        public override Assignment GetAssignmentPeriod(uint turnNumber)
         {
             var firstDayOfDuty = StartDay + Duration * turnNumber;
             var lastDayOfDuty = firstDayOfDuty + (Duration - TimeSpan.FromDays(1));
 
-            return new AssignmentPeriod
+            return new Assignment
             {
-                AssignmentNumber = turnNumber,
+                TurnNumber = turnNumber,
                 FirstActiveDay = firstDayOfDuty,
                 LastActiveDay = lastDayOfDuty
             };
         }
 
-        public override IEnumerable<AssignmentPeriod> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
+        public override IEnumerable<Assignment> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
         {
-            var result = new List<AssignmentPeriod>();
+            var result = new List<Assignment>();
             if (lastDay < StartDay)
             {
                 return result;

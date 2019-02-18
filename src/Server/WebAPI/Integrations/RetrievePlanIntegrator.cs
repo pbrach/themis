@@ -20,7 +20,7 @@ namespace WebAPI.Integrations
 
         public object Run()
         {
-            var request = new RetrievePlanRequest(_planRepo.DoesPlanIdExist, _planRepo.RetrievePlanById, _id);
+            var request = new RetrievePlanRequest(_planRepo.DoesPlanIdExist, _planRepo.RetrievePlan, _id);
             var response = request.Handle();
 
             if (!string.IsNullOrEmpty(response.ErrorMessage))
@@ -28,7 +28,7 @@ namespace WebAPI.Integrations
                 return new ErrorViewModel {ErrorMessage = response.ErrorMessage};
             }
 
-            return Mapper.Map<PlanFormViewModel>(response.Plan);
+            return Mapper.Map<PlanViewModel>(response.Plan);
         }
      }
 }

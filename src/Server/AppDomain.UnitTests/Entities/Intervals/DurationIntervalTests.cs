@@ -36,20 +36,20 @@ namespace AppDomain.UnitTests.Entities.Intervals
             };
 
             // ARGH: theories === attributes do not accept arguments a la: new List<>()... so I take this alternative:
-            var emptyList = new List<AssignmentPeriod>();
+            var emptyList = new List<Assignment>();
             var theories = new []
             {
                 (emptyList, "2018-12-26", "2018-12-27"),
                 (emptyList, "2018-12-29", "2018-12-28"),
-                (new List<AssignmentPeriod>
+                (new List<Assignment>
                 {
-                    new AssignmentPeriod{AssignmentNumber = 0U, FirstActiveDay = DateTime.Parse("2018-12-28"), LastActiveDay = DateTime.Parse("2019-01-03")}
+                    new Assignment{TurnNumber = 0U, FirstActiveDay = DateTime.Parse("2018-12-28"), LastActiveDay = DateTime.Parse("2019-01-03")}
                 }, "2018-12-28","2018-12-28"),
-                (new List<AssignmentPeriod>
+                (new List<Assignment>
                 {
-                    new AssignmentPeriod{AssignmentNumber = 0U, FirstActiveDay = DateTime.Parse("2018-12-28"), LastActiveDay = DateTime.Parse("2019-01-03")},
-                    new AssignmentPeriod{AssignmentNumber = 1U, FirstActiveDay = DateTime.Parse("2019-01-04"), LastActiveDay = DateTime.Parse("2019-01-10")},
-                    new AssignmentPeriod{AssignmentNumber = 2U, FirstActiveDay = DateTime.Parse("2019-01-11"), LastActiveDay = DateTime.Parse("2019-01-17")}
+                    new Assignment{TurnNumber = 0U, FirstActiveDay = DateTime.Parse("2018-12-28"), LastActiveDay = DateTime.Parse("2019-01-03")},
+                    new Assignment{TurnNumber = 1U, FirstActiveDay = DateTime.Parse("2019-01-04"), LastActiveDay = DateTime.Parse("2019-01-10")},
+                    new Assignment{TurnNumber = 2U, FirstActiveDay = DateTime.Parse("2019-01-11"), LastActiveDay = DateTime.Parse("2019-01-17")}
                 }, "2018-12-01","2019-01-14"),
             };
 

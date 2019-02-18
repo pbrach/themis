@@ -15,8 +15,8 @@ namespace AppDomain.Entities
 
         public abstract uint? GetTurnNumber(DateTime date);
 
-        public abstract AssignmentPeriod GetAssignmentPeriod(uint turnNumber);
+        public abstract Assignment GetAssignmentPeriod(uint turnNumber);
 
-        public abstract IEnumerable<AssignmentPeriod> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay);
+        public abstract IEnumerable<Assignment> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay);
     }
 }

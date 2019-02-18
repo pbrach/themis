@@ -2,15 +2,17 @@ using System;
 
 namespace AppDomain.Entities.Intervals
 {
-    public class AssignmentPeriod : IEquatable<AssignmentPeriod>
+    public class Assignment : IEquatable<Assignment>
     {
-        public uint AssignmentNumber { get; set; }
+        public string AssigneeName { get; set; }
+        public uint? TurnNumber { get; set; }
         public DateTime FirstActiveDay { get; set; }
         public DateTime LastActiveDay { get; set; }
 
-        public bool Equals(AssignmentPeriod other)
+        public bool Equals(Assignment other)
         {
-            return AssignmentNumber == other.AssignmentNumber &&
+            return AssigneeName == other.AssigneeName &&
+                   TurnNumber == other.TurnNumber &&
                    FirstActiveDay == other.FirstActiveDay &&
                    LastActiveDay == other.LastActiveDay;
         }

@@ -1,3 +1,4 @@
+using System;
 using AppDomain.Entities.Intervals;
 
 namespace AppDomain.Entities
@@ -13,29 +14,29 @@ namespace AppDomain.Entities
         public string[] AssignedUsers { get; set; } = {};
         public Interval Interval { get; set; }
 
-        public string GetCurrentAssignedUser()
+        public Assignment AssignmentAt(DateTime date)
         {
-            var turnNumber = Interval.GetCurrentTurnNumber();
+            Assignment result = null;
+            var turnNumber = Interval.GetTurnNumber(date);
+            
             if (!turnNumber.HasValue)
             {
-                return "No one: Chore did not start yet";
+                result = new Assignment
+                {
+                    TurnNumber = null,
+                    AssigneeName = "No one: Chore did not start yet",
+                    LastActiveDay = DateTime.MinValue,
+                    FirstActiveDay = DateTime.MinValue
+                };
             }
-
-            var assignmentId = turnNumber.Value % AssignedUsers.Length;
-            
-            return AssignedUsers[assignmentId];
-        }
-
-        public AssignmentPeriod GetCurrentAssignmentPeriod()
-        {
-            var turnNumber = Interval.GetCurrentTurnNumber();
-            
-            if (turnNumber == null)
+            else
             {
-                return Interval.GetAssignmentPeriod(0);
+                result = Interval.GetAssignmentPeriod(turnNumber.Value);
+                var assignmentId = turnNumber.Value % AssignedUsers.Length;
+                result.AssigneeName = AssignedUsers[assignmentId];
             }
-            
-            return Interval.GetAssignmentPeriod(turnNumber.Value);
+
+            return result;
         }
     }
 }
