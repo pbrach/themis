@@ -24,10 +24,12 @@
 {
     <div class="container mt-5">
         <h4>Existing Plans</h4>
+        <ol>
         @foreach (var planId in Model)
         {
             var showUrl = hostBaseUrl + @Url.Action("Index", "Plan", new {id = planId});
-            @Html.ActionLink(showUrl, "Index", "Plan", new {id = planId})
+            <li>@Html.ActionLink(showUrl, "Index", "Plan", new {id = planId})</li>
         }
+        </ol>
     </div>
 }
