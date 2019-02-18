@@ -10,7 +10,7 @@ namespace AppDomain.Entities
         /// <summary>
         /// Users that are assigned to this chore (might not be all users from the plan)
         /// </summary>
-        public string[] Users { get; set; } = { };
+        public string[] AssignedUsers { get; set; } = {};
         public Interval Interval { get; set; }
 
         public string GetCurrentAssignedUser()
@@ -21,9 +21,9 @@ namespace AppDomain.Entities
                 return "No one: Chore did not start yet";
             }
 
-            var assignmentId = turnNumber.Value % Users.Length;
+            var assignmentId = turnNumber.Value % AssignedUsers.Length;
             
-            return Users[assignmentId];
+            return AssignedUsers[assignmentId];
         }
 
         public AssignmentPeriod GetCurrentAssignmentPeriod()

@@ -10,6 +10,6 @@ namespace AppDomain.Entities
         
         public string Description { get; set; }
 
-        public ICollection<Chore> Chores { get; } = new List<Chore>();
+        public IEnumerable<Chore> Chores { get; set; } = new List<Chore>();
     }
 }
