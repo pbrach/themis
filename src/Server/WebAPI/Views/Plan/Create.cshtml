@@ -32,13 +32,13 @@
                         <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
                         <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
                     </div>
-       
+
                     <div class="add-user-form row form-group">
                         <div class="form-inline add-user-group user-form-group mt-2">
                             <input class="form-control add-user-input w-100" placeholder="add user..."/>
                         </div>
                     </div>
-                    
+
                     <div class="form-group form-inline">
                         <label class="form-label mr-3">
                             Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
@@ -55,6 +55,25 @@
     }
 </div>
 
+
+@* ====== Templates ====== *@
+<template id="chore-template">
+    
+</template>
+
+
+<template id="user-template">
+    <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
+        <input class="form-control normal-user-input p-0 bg-light"/>
+        <button class="form-control btn btn-remove-user bg-light">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</template>
+
+
+
+
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function() {
@@ -70,14 +89,7 @@
             $("form").keypress(suppressEnter);
 
             // Prepare the User-Edit-Template
-            var templateString =
-                '<div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">' +
-                    '<input class="form-control normal-user-input p-0 bg-light" />' +
-                    '<button class="form-control btn btn-remove-user bg-light">' +
-                        '<i class="fas fa-times"></i>' +
-                    '</button>' +
-                '</div>';
-            var addUserTemplate = $($.parseHTML(templateString));
+            var addUserTemplate = $($('#user-template').html());;
             addUserTemplate.keypress(suppressEnter);
             addUserTemplate.keyup(suppressEnter);
             addUserTemplate.keydown(suppressEnter);
@@ -92,12 +104,12 @@
                     var userName = userAdderInput.val().trim();
                     if (userName === "")
                         return;
-                    
+
                     var dynamicClone = addUserTemplate.clone(true);
                     var cloneUserInput = $(dynamicClone.children()[0]);
-                    
+
                     cloneUserInput.val(userName);
-                    cloneUserInput.attr('size', userName.length );
+                    cloneUserInput.attr('size', userName.length);
                     userAdderInput.val("");
 
                     dynamicClone.insertBefore('.add-user-group');
@@ -114,7 +126,7 @@
 
             // List Data Preparation
             $('form').submit(function(e) {
-                $('.add-user-input').remove();
+                $('.add-user-input').prop( "disabled", true );
 
                 $('.normal-user-input').each(function(index) {
                     $(this).attr('name', `Chores[0].AssignedUsers[${index}]`);
