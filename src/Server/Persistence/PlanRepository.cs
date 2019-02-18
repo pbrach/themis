@@ -1,6 +1,6 @@
-using System;
 using System.Linq;
 using AppDomain.Entities;
+using AppDomain.Requests;
 using Persistence.DbTypes;
 
 namespace Persistence
@@ -37,20 +37,18 @@ namespace Persistence
 
         private static DbPlan MapFromBl(Plan plan)
         {
-            var result = new DbPlan
+            return new DbPlan
             {
                 Id = plan.Id,
                 Title = plan.Title,
                 Description = plan.Description,
                 Chores = plan.Chores.Select(MapFromBl).ToList()
             };
-
-            return result;
         }
 
         private static DbChore MapFromBl(Chore chore)
         {
-            var result = new DbChore
+            return new DbChore
             {
                 Title = chore.Title,
                 Description = chore.Description,
@@ -60,26 +58,40 @@ namespace Persistence
                 Duration = chore.Interval.Duration,
                 StartDay = chore.Interval.StartDay
             };
-
-            return result;
         }
 
-        public Plan RetrievePlanById(string id)
+        public Plan RetrievePlan(string id)
         {
-            DbPlan result = null;
+            DbPlan dbPlan = null;
             using (var ctx = new ThemisContext())
             {
-                result = ctx.Plans.Find(id);
+                dbPlan = ctx.Plans.Find(id);
             }
 
             var plan = new Plan
             {
-                Id = result.Id,
-                Title = result.Title,
-                Description = result.Description
+                Id = dbPlan.Id,
+                Title = dbPlan.Title,
+                Description = dbPlan.Description,
+                Chores = dbPlan.Chores.Select(MapFromDb)
             };
 
             return plan;
+        }
+        
+        private static Chore MapFromDb(DbChore dbChore)
+        {
+            var interval = IntervalService.CreateNew(dbChore.IntervalType);
+            interval.Duration = dbChore.Duration;
+            interval.StartDay = dbChore.StartDay;
+            
+            return new Chore
+            {
+                Title = dbChore.Title,
+                Description = dbChore.Description,
+                AssignedUsers = dbChore.AssignedUsers.Split(";"),
+                Interval = interval
+            };
         }
     }
 }
