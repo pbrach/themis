@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace WebAPI.Models
 {
@@ -9,6 +8,6 @@ namespace WebAPI.Models
         
         public string Description { get; set; }
 
-        public virtual IEnumerable<ChoreFormViewModel> Chores { get; set; } = new List<ChoreFormViewModel>();
+        public virtual IEnumerable<ChoreViewModel> Chores { get; set; } = new List<ChoreViewModel>();
     }
 }
