@@ -19,6 +19,17 @@ namespace Persistence
 
             return exists;        
         }
+        
+        public IEnumerable<string> AllPlanIds()
+        {
+            var idList = new List<string>();
+            using (var ctx = new ThemisContext())
+            {
+                idList.AddRange(ctx.Plans.Select(x => x.Id));
+            }
+
+            return idList;        
+        }
 
         public bool StoreNewPlan(Plan plan)
         {

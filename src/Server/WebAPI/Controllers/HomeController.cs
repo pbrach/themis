@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Persistence;
 using ErrorViewModel = WebAPI.Models.ErrorViewModel;
 
 namespace WebAPI.Controllers
@@ -8,7 +9,8 @@ namespace WebAPI.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var ids = new PlanRepository().AllPlanIds();
+            return View(ids);
         }
 
 
