@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using AppDomain.Entities;
 using AppDomain.Requests;
+using Microsoft.EntityFrameworkCore;
 using Persistence.DbTypes;
 
 namespace Persistence
@@ -12,8 +14,6 @@ namespace Persistence
             var exists = false;
             using (var ctx = new ThemisContext())
             {
-                var result = ctx.SaveChanges();
-
                 exists = ctx.Plans.Find(planId) != null;
             }
 
@@ -76,7 +76,7 @@ namespace Persistence
             DbPlan dbPlan = null;
             using (var ctx = new ThemisContext())
             {
-                dbPlan = ctx.Plans.Find(id);
+                dbPlan = ctx.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
             }
 
             var plan = new Plan
