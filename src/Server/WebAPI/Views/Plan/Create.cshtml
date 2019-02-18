@@ -25,31 +25,34 @@
             </div>
         </div>
 
-        <div class="col-12">
-            <div class="add-chores-form chores-form p-5 form-group">
-                <div class="add-chores-group chores-form-group">
-                    <div class="form-group form-row justify-content-between align-top">
-                        <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
-                        <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
-                    </div>
+        <div class="add-chores-form chores-form pb-1 px-5 pt-1 form-group">
+            <div class="row">
+                <button class="form-control btn chore-form-btn btn-remove-chore w-auto ml-auto m-3"><i class="icon-rm-chore fas fa-times"></i></button>
+            </div>
+            <div class="add-chores-group chores-form-group">
+                <div class="form-group form-row justify-content-between align-top">
+                    <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
+                    <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
+                </div>
 
-                    <div class="add-user-form row form-group">
-                        <div class="form-inline add-user-group user-form-group mt-2">
-                            <input class="form-control add-user-input w-100" placeholder="add user..."/>
-                        </div>
+                <div class="add-user-form row form-group">
+                    <div class="form-inline add-user-group user-form-group mt-2">
+                        <input class="form-control add-user-input w-100" placeholder="add user..."/>
                     </div>
+                </div>
 
-                    <div class="form-group form-inline">
-                        <label class="form-label mr-3">
-                            Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-                        </label>
-                        <input type="text" class="form-control" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
-                    </div>
+                <div class="form-group form-inline">
+                    <label class="form-label mr-3">
+                        Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                    </label>
+                    <input type="text" class="form-control" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
                 </div>
             </div>
         </div>
 
-        <div class="col text-center">
+        <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light"><i class="fas fa-plus"></i> add another chore</button>
+
+        <div class="col text-center push-to-bottom">
             <input type="submit" id="main-submit" class="w-25 form-control btn btn-primary btn-lg" value="Create">
         </div>
     }
@@ -65,7 +68,7 @@
 <template id="user-template">
     <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
         <input class="form-control normal-user-input p-0 bg-light"/>
-        <button class="form-control btn btn-remove-user bg-light">
+        <button class="form-control btn chore-form-btn btn-remove-user bg-light">
             <i class="fas fa-times"></i>
         </button>
     </div>
@@ -87,6 +90,8 @@
 
             // Do not trigger submit easily (via enter press)
             $("form").keypress(suppressEnter);
+            $(".btn-add-chore").click(e => e.preventDefault());
+            $(".btn-remove-chore").click(e => e.preventDefault());
 
             // Prepare the User-Edit-Template
             var addUserTemplate = $($('#user-template').html());;
