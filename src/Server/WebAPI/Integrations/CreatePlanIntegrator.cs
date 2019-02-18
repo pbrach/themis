@@ -2,8 +2,8 @@
 using AppDomain.Requests;
 using AutoMapper;
 using Persistence;
+using WebAPI.Models;
 using ErrorViewModel = WebAPI.Models.ErrorViewModel;
-using PlanViewModel = WebAPI.Models.PlanViewModel;
 using SuccessViewModel = WebAPI.Models.SuccessViewModel;
 
 namespace WebAPI.Integrations
@@ -12,18 +12,18 @@ namespace WebAPI.Integrations
     {
         private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
-        private PlanViewModel PlanViewModel { get; }
+        private PlanFormViewModel PlanFormViewModel { get; }
         private PlanRepository PlanRepo { get; }
 
-        public CreatePlanIntegrator(PlanViewModel planViewModel)
+        public CreatePlanIntegrator(PlanFormViewModel planFormViewModel)
         {
-            PlanViewModel = planViewModel;
+            PlanFormViewModel = planFormViewModel;
             PlanRepo = new PlanRepository(); // BAD: Dependency hiding!!!
         }
 
         public object Run()
         {
-            var inputBlPlan = Mapper.Map<Plan>(PlanViewModel);
+            var inputBlPlan = Mapper.Map<Plan>(PlanFormViewModel);
             
             var request = new CreatePlanRequest(PlanRepo.DoesPlanIdExist, PlanRepo.StoreNewPlan, inputBlPlan);
 

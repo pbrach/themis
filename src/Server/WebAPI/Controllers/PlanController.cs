@@ -1,7 +1,8 @@
+using System;
 using AppDomain.Requests;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Models;
 using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
-using PlanViewModel = WebAPI.Models.PlanViewModel;
 using RetrievePlanIntegrator = WebAPI.Integrations.RetrievePlanIntegrator;
 using SuccessViewModel = WebAPI.Models.SuccessViewModel;
 
@@ -17,9 +18,24 @@ namespace WebAPI.Controllers
         public IActionResult Index(string id)
         {
             var resultVm = new RetrievePlanIntegrator(id).Run();
-            if (resultVm is PlanViewModel planViewModel)
-            {
-                return View(planViewModel);  
+            if (resultVm is PlanFormViewModel planViewModel)
+            {   
+                return View(new PlanViewModel
+                {
+                    Title = "Dummy Title",
+                    Description = "Dummy Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum ",
+                    Chores = new []{
+                        new ChoreViewModel
+                        {
+                            Title = "Wash Dishes",
+                            CurrentAssignee = "Peta",
+                            NextAssignee = "H-Olga aka. Holgar d. Schreckliche",
+                            Description = "Immer schön mit dem Pril waschen und dabei net vom Frühstück naschen!",
+                            Start = DateTime.Now,
+                            End = DateTime.Now
+                        }
+                    }
+                });  
             }
             
             // ERROR Handling
@@ -30,9 +46,9 @@ namespace WebAPI.Controllers
         /// CREATE Plan
         /// </summary>
         [HttpPost]
-        public IActionResult Index(PlanViewModel planVM)
+        public IActionResult Index(PlanFormViewModel planFormVm)
         {
-            var resultVm = new CreatePlanIntegrator(planVM).Run();
+            var resultVm = new CreatePlanIntegrator(planFormVm).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
             {

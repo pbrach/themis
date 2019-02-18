@@ -1,8 +1,8 @@
 using AppDomain.Requests;
 using AutoMapper;
 using Persistence;
+using WebAPI.Models;
 using ErrorViewModel = WebAPI.Models.ErrorViewModel;
-using PlanViewModel = WebAPI.Models.PlanViewModel;
 
 namespace WebAPI.Integrations
 {
@@ -10,7 +10,7 @@ namespace WebAPI.Integrations
     {
         private readonly string _id;
         private readonly PlanRepository _planRepo;
-        private static readonly IMapper Mapper = WebAPI.Integrations.DataMapper.MapperConfig.CreateMapper();
+        private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
         public RetrievePlanIntegrator(string id)
         {
@@ -28,7 +28,7 @@ namespace WebAPI.Integrations
                 return new ErrorViewModel {ErrorMessage = response.ErrorMessage};
             }
 
-            return Mapper.Map<PlanViewModel>(response.Plan);
+            return Mapper.Map<PlanFormViewModel>(response.Plan);
         }
      }
 }

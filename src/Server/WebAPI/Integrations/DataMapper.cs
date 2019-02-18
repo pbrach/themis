@@ -3,7 +3,6 @@ using AppDomain.Entities;
 using AppDomain.Requests;
 using AutoMapper;
 using WebAPI.Models;
-using PlanViewModel = WebAPI.Models.PlanViewModel;
 
 namespace WebAPI.Integrations
 {
@@ -14,7 +13,7 @@ namespace WebAPI.Integrations
             cfg.CreateMissingTypeMaps = true;
             cfg.AllowNullDestinationValues = true;
 
-            cfg.CreateMap<PlanViewModel, Plan>()
+            cfg.CreateMap<PlanFormViewModel, Plan>()
                 .ReverseMap()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
