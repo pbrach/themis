@@ -11,8 +11,8 @@ namespace Persistence.DbTypes
         public string Description { get; set; }
         
         public string DbPlanId { get; set; }
-        
-        public string AssignedUsers { get; set; }
+
+        public string AssignedUsers { get; set; } = string.Empty;
         
         public TimeSpan Duration { get; set; } = TimeSpan.Zero;
         

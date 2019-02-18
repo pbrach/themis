@@ -10,6 +10,6 @@ namespace Persistence.DbTypes
         
         public string Description { get; set; }
 
-        public ICollection<DbChore> Chores { get; set; }
+        public ICollection<DbChore> Chores { get; set; } = new List<DbChore>();
     }
 }
