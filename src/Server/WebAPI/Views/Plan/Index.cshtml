@@ -8,3 +8,27 @@
 
 <h4>Description</h4>
 <p>@Model.Description</p>
+
+<h4>Assignments at @DateTime.Today.ToString("yyyy-MM-dd")</h4>
+
+<table>
+    <thead>
+    <tr>
+        <th>Chore</th>
+        <th>Assignee</th>
+        <th>Duration</th>
+        <th>Next Assignee</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var chore in Model.Chores)
+    {
+        <tr>
+            <td>@chore.Title</td>
+            <td>@chore.CurrentAssignee</td>
+            <td>@chore.Start.ToString("yyyy-MM-dd") - @chore.End.ToString("yyyy-MM-dd")</td>
+            <td>@chore.NextAssignee</td>
+        </tr>
+    }
+    </tbody>
+</table>
