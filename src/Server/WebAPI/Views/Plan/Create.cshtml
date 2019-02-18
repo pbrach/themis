@@ -6,7 +6,9 @@
     Layout = "_Layout";
 }
 
-<h2 class="text-center display-6">@ViewBag.Title</h2>
+<h2 class="text-center display-6">
+    <strong>@ViewBag.Title</strong>
+</h2>
 
 <div class="pt-5">
     @using (Html.BeginForm("Index", "Plan",
@@ -25,32 +27,9 @@
             </div>
         </div>
 
-        <div class="add-chores-form chores-form pb-1 px-5 pt-1 form-group">
-            <div class="row">
-                <button class="form-control btn chore-form-btn btn-remove-chore w-auto ml-auto m-3"><i class="icon-rm-chore fas fa-times"></i></button>
-            </div>
-            <div class="add-chores-group chores-form-group">
-                <div class="form-group form-row justify-content-between align-top">
-                    <input type="text" class="form-control col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
-                    <textarea rows="2" class="form-control col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
-                </div>
-
-                <div class="add-user-form row form-group">
-                    <div class="form-inline add-user-group user-form-group mt-2">
-                        <input class="form-control add-user-input w-100" placeholder="add user..."/>
-                    </div>
-                </div>
-
-                <div class="form-group form-inline">
-                    <label class="form-label mr-3">
-                        Starting Day: <input type="date" class="form-control ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-                    </label>
-                    <input type="text" class="form-control" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
-                </div>
-            </div>
+        <div id="dynamic-chores-list">
+            <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light"><i class="fas fa-plus mr-3"></i>add chore</button>
         </div>
-
-        <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light"><i class="fas fa-plus"></i> add another chore</button>
 
         <div class="col text-center push-to-bottom">
             <input type="submit" id="main-submit" class="w-25 form-control btn btn-primary btn-lg" value="Create">
@@ -61,7 +40,30 @@
 
 @* ====== Templates ====== *@
 <template id="chore-template">
-    
+    <div class="add-chores-form pb-1 px-5 pt-1 form-group">
+        <div class="row">
+            <button class="form-control btn chore-form-btn btn-remove-chore w-auto ml-auto m-3">
+                <i class="icon-rm-chore fas fa-times"></i>
+            </button>
+        </div>
+        <div class="form-group form-row justify-content-between align-top">
+            <input type="text" class="form-control chore-title col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
+            <textarea rows="2" class="form-control chore-description col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
+        </div>
+
+        <div class="add-user-form row form-group">
+            <div class="form-inline add-user-group user-form-group mt-2">
+                <input class="form-control add-user-input w-100" placeholder="add user..."/>
+            </div>
+        </div>
+
+        <div class="form-group form-inline">
+            <label class="form-label mr-3">
+                Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+            </label>
+            <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+        </div>
+    </div>
 </template>
 
 
@@ -75,68 +77,94 @@
 </template>
 
 
-
-
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            function suppressEnter(e) {
-                if (e.keyCode == 13) {
-                    e.preventDefault();
-                    return false;
-                }
+        function suppressEnter(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
             }
+        }
 
-            // Do not trigger submit easily (via enter press)
-            $("form").keypress(suppressEnter);
-            $(".btn-add-chore").click(e => e.preventDefault());
-            $(".btn-remove-chore").click(e => e.preventDefault());
+        // Prepare the User-Edit-Template
+        var addChoreTemplate = $($('#chore-template').html());
+        var addUserTemplate = $($('#user-template').html());
+        [$("form"), addChoreTemplate, addUserTemplate].forEach(item => item.keypress(suppressEnter));
 
-            // Prepare the User-Edit-Template
-            var addUserTemplate = $($('#user-template').html());;
-            addUserTemplate.keypress(suppressEnter);
-            addUserTemplate.keyup(suppressEnter);
-            addUserTemplate.keydown(suppressEnter);
 
-            // Add USER Action
-            $(".add-user-form").on('keyup.add-user-input',
-                function(e) {
-                    if (e.keyCode != 13)
-                        return;
-                    e.preventDefault();
-                    var userAdderInput = $('.add-user-input');
-                    var userName = userAdderInput.val().trim();
-                    if (userName === "")
-                        return;
+        // Add CHORES form
+        $(".btn-add-chore").click(e => {
+            e.preventDefault();
+            var dynamicClone = addChoreTemplate.clone(true);
+            dynamicClone.insertBefore('.btn-add-chore');
+        });
+        // add a first chore-form:
+        var dynamicClone = addChoreTemplate.clone(true);
+        dynamicClone.insertBefore('.btn-add-chore');
 
-                    var dynamicClone = addUserTemplate.clone(true);
-                    var cloneUserInput = $(dynamicClone.children()[0]);
 
-                    cloneUserInput.val(userName);
-                    cloneUserInput.attr('size', userName.length);
-                    userAdderInput.val("");
+        // Remove CHORES from
+        $("#dynamic-chores-list").on('click',
+            '.btn-remove-chore',
+            function(e) {
+                e.preventDefault();
+                $(this).closest('.add-chores-form').remove();
+                return false;
+            });
 
-                    dynamicClone.insertBefore('.add-user-group');
-                });
 
-            // Remove USER Action
-            $('.add-user-form').on('click',
-                '.btn-remove-user',
-                function(e) {
-                    e.preventDefault();
-                    $(this).closest('.user-form-group').remove();
-                    return false;
-                });
+        // Add USER Action
+        $("#dynamic-chores-list").on('keyup.add-user-input',
+            function(e) {
+                if (e.keyCode != 13)
+                    return;
+                e.preventDefault();
+                var userAdderInput = $(e.target);
+                var userName = userAdderInput.val().trim();
+                if (userName === "")
+                    return;
 
-            // List Data Preparation
-            $('form').submit(function(e) {
-                $('.add-user-input').prop( "disabled", true );
+                var dynamicClone = addUserTemplate.clone(true);
+                var cloneUserInput = $(dynamicClone.children()[0]);
 
-                $('.normal-user-input').each(function(index) {
-                    $(this).attr('name', `Chores[0].AssignedUsers[${index}]`);
+                cloneUserInput.val(userName);
+                cloneUserInput.attr('size', userName.length);
+                userAdderInput.val("");
+
+                dynamicClone.insertBefore($(e.target).closest('.add-user-group'));
+            });
+
+        // Remove USER Action
+        $('#dynamic-chores-list').on('click',
+            '.btn-remove-user',
+            function(e) {
+                e.preventDefault();
+                $(e.target).closest('.user-form-group').remove();
+                return false;
+            });
+
+
+        // INDEX and Data-Mapping of all Chore fields
+        $('form').submit(function(e) {
+            $('.add-user-input').prop("disabled", true);
+
+            $('.add-chores-form').each(function(choreIdx, elem) {
+
+                $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
+                
+                $(elem).find('.chore-description').attr('name', `Chores[${choreIdx}].Description`);
+                
+                $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
+                
+                $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].DayDuration`);
+
+                $(elem).find('.normal-user-input').each(function(index) {
+                    $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
                 });
             });
+        });
         });
     </script>
 }
