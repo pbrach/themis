@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AppDomain.Entities;
 using Persistence.DbTypes;
 
@@ -24,19 +25,43 @@ namespace Persistence
             var wasSuccess = false;
             using (var ctx = new ThemisContext())
             {
-                ctx.Plans.Add(new DbPlan{
-                    Id = plan.Id,
-                    Title = plan.Title,
-                    Description = plan.Description,
-                    UserListText = null,
-                    Chores = null
-                    });
+                var dbPlan = MapFromBl(plan);
+                ctx.Plans.Add(dbPlan);
                 var result = ctx.SaveChanges();
 
                 wasSuccess = result != 0;
             }
 
             return wasSuccess;
+        }
+
+        private static DbPlan MapFromBl(Plan plan)
+        {
+            var result = new DbPlan
+            {
+                Id = plan.Id,
+                Title = plan.Title,
+                Description = plan.Description,
+                Chores = plan.Chores.Select(MapFromBl).ToList()
+            };
+
+            return result;
+        }
+
+        private static DbChore MapFromBl(Chore chore)
+        {
+            var result = new DbChore
+            {
+                Title = chore.Title,
+                Description = chore.Description,
+                AssignedUsers = string.Join(";", chore.AssignedUsers),
+
+                IntervalType = chore.Interval.FriendlyName,
+                Duration = chore.Interval.Duration,
+                StartDay = chore.Interval.StartDay
+            };
+
+            return result;
         }
 
         public Plan RetrievePlanById(string id)

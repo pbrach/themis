@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Persistence.DbTypes
 {
@@ -11,8 +10,6 @@ namespace Persistence.DbTypes
         
         public string Description { get; set; }
 
-        public IEnumerable<DbChore> Chores { get; set; }
-        
-        public string UserListText { get; set; }
+        public ICollection<DbChore> Chores { get; set; }
     }
 }

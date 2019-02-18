@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
@@ -12,8 +13,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    UserListText = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,11 @@ namespace Persistence.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    DbPlanId = table.Column<string>(nullable: true)
+                    DbPlanId = table.Column<string>(nullable: true),
+                    AssignedUsers = table.Column<string>(nullable: true),
+                    Duration = table.Column<TimeSpan>(nullable: false),
+                    StartDay = table.Column<DateTime>(nullable: false),
+                    IntervalType = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
