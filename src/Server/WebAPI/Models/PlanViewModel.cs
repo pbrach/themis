@@ -9,6 +9,6 @@ namespace WebAPI.Models
         
         public string Description { get; set; }
 
-        public virtual IList<ChoreFormViewModel> Chores { get; set; } = new List<ChoreFormViewModel>();
+        public virtual IEnumerable<ChoreFormViewModel> Chores { get; set; } = new List<ChoreFormViewModel>();
     }
 }
