@@ -1,3 +1,5 @@
+@using System.Runtime.InteropServices
+@using AppDomain.Requests
 @model WebAPI.Models.PlanFormViewModel
 
 @{
@@ -57,7 +59,13 @@
             </div>
         </div>
 
-        <div class="form-group form-inline">
+        <div class="add-interval-from form-group form-inline">
+            <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
+                @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
+                {
+                    <option class="interval-option" value="@fName" @{fName == "Duration Interval" ? "selected" : ""} >@fName</option>
+                }
+            </select>
             <label class="form-label mr-3">
                 Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
             </label>
@@ -165,6 +173,13 @@
                 });
             });
         });
-        });
+
+
+        $('.interval-type-selector').on('click.interval-option',
+            function(e) {
+                console.log($('.interval-type-selector').attr('data-last-value')+ " | "+ $(this).find('option:selected').val());
+                $('.interval-type-selector').attr('data-last-value', $(this).find('option:selected').val());
+            });
+    });
     </script>
 }
