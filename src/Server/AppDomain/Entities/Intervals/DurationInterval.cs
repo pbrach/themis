@@ -14,7 +14,8 @@ namespace AppDomain.Entities.Intervals
         public override string FriendlyName => "Duration Interval";
         
         private TimeSpan? _turnDuration;
-        private TimeSpan TurnDuration
+
+        protected override TimeSpan TurnDuration
         {
             get
             {
@@ -26,8 +27,8 @@ namespace AppDomain.Entities.Intervals
         }
 
         private DateTime? _startDate;
-        
-        private DateTime IntervalStartDay
+
+        protected override DateTime IntervalStart
         {
             get
             {
@@ -40,7 +41,7 @@ namespace AppDomain.Entities.Intervals
         
         public override uint? GetTurnNumber(DateTime date)
         {
-            var elapsedSinceStart = date - IntervalStartDay;
+            var elapsedSinceStart = date - IntervalStart;
 
             if (elapsedSinceStart < TimeSpan.Zero)
             {
@@ -54,46 +55,6 @@ namespace AppDomain.Entities.Intervals
 
             var currentTurnNumber = elapsedSinceStart / TurnDuration;
             return (uint) currentTurnNumber;
-        }
-
-        public override Assignment GetAssignmentPeriod(uint turnNumber)
-        {
-            var firstDayOfDuty = IntervalStartDay + TurnDuration * turnNumber;
-            var lastDayOfDuty = firstDayOfDuty + (TurnDuration - TimeSpan.FromDays(1));
-
-            return new Assignment
-            {
-                TurnNumber = turnNumber,
-                FirstActiveDay = firstDayOfDuty,
-                LastActiveDay = lastDayOfDuty
-            };
-        }
-
-        public override IEnumerable<Assignment> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
-        {
-            var result = new List<Assignment>();
-            if (lastDay < IntervalStartDay)
-            {
-                return result;
-            }
-
-            var activeDay = firstDay;
-            while (activeDay <= lastDay)
-            {
-                var turnNumber = GetTurnNumber(activeDay);
-                if (turnNumber == null)
-                {
-                    activeDay += TurnDuration;
-                    continue;
-                }
-
-                var assPi = GetAssignmentPeriod(turnNumber.Value);
-                result.Add(assPi);
-
-                activeDay += TurnDuration;
-            }
-
-            return result;
         }
     }
 }
