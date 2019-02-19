@@ -1,9 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace AppDomain.Entities.Intervals
 {
+    /// <summary>
+    /// 'Duration' is here the number of weeks
+    ///
+    /// The 'StartDay' can be any day within the week, but with the 'StartOfWeek' property
+    /// the actual week and the firstday of the week is derived.
+    ///
+    /// This allows to store the original data (perhaps the day the plan was started)
+    /// in the DB while still providing the correct functionality.
+    /// </summary>
     public class WeekInterval: Interval
     {
         public override string FriendlyName => "Week Interval";

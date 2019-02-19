@@ -67,7 +67,8 @@ namespace Persistence
 
                 IntervalType = chore.Interval.FriendlyName,
                 Duration = chore.Interval.Duration,
-                StartDay = chore.Interval.StartDay
+                StartDay = chore.Interval.StartDay,
+                StartOfWeek = chore.Interval.StartOfWeek
             };
         }
 
@@ -95,6 +96,7 @@ namespace Persistence
             var interval = IntervalService.CreateNew(dbChore.IntervalType);
             interval.Duration = dbChore.Duration;
             interval.StartDay = dbChore.StartDay;
+            interval.StartOfWeek = dbChore.StartOfWeek;
             
             return new Chore
             {

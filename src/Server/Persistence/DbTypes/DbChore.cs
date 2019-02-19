@@ -17,6 +17,8 @@ namespace Persistence.DbTypes
         public uint Duration { get; set; } = 0;
         
         public DateTime StartDay { get; set; } = DateTime.MinValue;
+
+        public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Monday;
         
         public string IntervalType { get; set; }
     }

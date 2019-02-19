@@ -33,6 +33,9 @@ namespace AppDomain.Entities
             };
         }
 
+        /// <summary>
+        /// Returns only 'Assignments' that start at or after 'firstDay' and end at or before 'lastDay'
+        /// </summary>
         public IEnumerable<Assignment> GetAssignmentsBetween(DateTime firstDay, DateTime lastDay)
         {
             var result = new List<Assignment>();
