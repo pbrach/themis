@@ -1,47 +1,60 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AppDomain.Entities.Intervals
 {
-    /// <summary>
-    /// Duration Intervals:
-    /// - some duration in days (min 1 day) for which a user is assigned is given
-    /// - directly after the duration ends, the next assignement interval begins
-    ///
-    /// </summary>
-    public class DurationInterval : Interval
+    public class WeekInterval: Interval
     {
-        public override string FriendlyName => "Duration Interval";
-        
-        private TimeSpan? _turnDuration;
+        public override string FriendlyName => "Week Interval";
+
+        private TimeSpan? _turnDuration = null;
         private TimeSpan TurnDuration
         {
             get
             {
                 if (!_turnDuration.HasValue)
-                    _turnDuration = TimeSpan.FromDays(Duration);
+                    _turnDuration = TimeSpan.FromDays(7 * Duration);
                 
                 return _turnDuration.Value; 
             }
         }
 
-        private DateTime? _startDate;
-        
+        private DateTime? _weekStartDay = null;
         private DateTime IntervalStartDay
         {
             get
             {
-                if (!_startDate.HasValue)
-                    _startDate = StartDay.Date;
-                
-                return _startDate.Value; 
+                if (!_weekStartDay.HasValue)
+                {
+                    _weekStartDay = GetWeekStart();
+                }
+
+                return _weekStartDay.Value;
             }
         }
         
+        private DateTime GetWeekStart()
+        {
+            if (IsFirstWeekDay(StartDay))
+            {
+                return StartDay;
+            }
+            var dow = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(StartDay);
+            var dayDiff = Math.Abs(StartOfWeek - dow);
+            return StartDay.Date - TimeSpan.FromDays(dayDiff);
+        }
+
+        private bool IsFirstWeekDay(DateTime dayDate)
+        {
+            var dow = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(dayDate);
+            return dow == StartOfWeek;
+        }
+
         public override uint? GetTurnNumber(DateTime date)
         {
             var elapsedSinceStart = date - IntervalStartDay;
-
+            
             if (elapsedSinceStart < TimeSpan.Zero)
             {
                 return null; // the StartDay is in the future, so it is no ones turn yet!
@@ -55,7 +68,7 @@ namespace AppDomain.Entities.Intervals
             var currentTurnNumber = elapsedSinceStart / TurnDuration;
             return (uint) currentTurnNumber;
         }
-
+        
         public override Assignment GetAssignmentPeriod(uint turnNumber)
         {
             var firstDayOfDuty = IntervalStartDay + TurnDuration * turnNumber;
@@ -76,7 +89,7 @@ namespace AppDomain.Entities.Intervals
             {
                 return result;
             }
-
+            
             var activeDay = firstDay;
             while (activeDay <= lastDay)
             {

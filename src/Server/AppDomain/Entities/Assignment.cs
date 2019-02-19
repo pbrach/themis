@@ -1,6 +1,6 @@
 using System;
 
-namespace AppDomain.Entities.Intervals
+namespace AppDomain.Entities
 {
     public class Assignment : IEquatable<Assignment>
     {

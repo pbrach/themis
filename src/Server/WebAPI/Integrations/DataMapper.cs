@@ -51,7 +51,7 @@ namespace WebAPI.Integrations
         private static Interval ThemisMap(ChoreFormViewModel model)
         {
             var result = IntervalService.CreateNew(model.IntervalType);
-            result.Duration = TimeSpan.FromDays(model.DayDuration);
+            result.Duration = (uint)model.DayDuration;
             result.StartDay = model.StartDay;
             return result;
         }

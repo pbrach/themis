@@ -14,7 +14,7 @@ namespace Persistence.DbTypes
 
         public string AssignedUsers { get; set; } = string.Empty;
         
-        public TimeSpan Duration { get; set; } = TimeSpan.Zero;
+        public uint Duration { get; set; } = 0;
         
         public DateTime StartDay { get; set; } = DateTime.MinValue;
         
