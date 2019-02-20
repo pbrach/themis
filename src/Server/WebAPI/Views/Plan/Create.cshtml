@@ -75,7 +75,7 @@
                 <label class="form-label mr-3">
                     Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
                 </label>
-                <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+                <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
         <label class="form-label mr-3">
             Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
         </label>
-        <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
     </div>
 </template>
 
@@ -97,7 +97,7 @@
         <label class="form-label mr-3">
             Select starting week by any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
         </label>
-        <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
     </div>
 </template>
 
@@ -192,16 +192,15 @@
 
                 $('.add-chores-form').each(function(choreIdx, elem) {
 
-                    // TODO:
-                    // add newly added properties
-
                     $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
 
                     $(elem).find('.chore-description').attr('name', `Chores[${choreIdx}].Description`);
+                    
+                    $(elem).find('.interval-type-selector').attr('name', `Chores[${choreIdx}].IntervalType`);
 
                     $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
 
-                    $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].DayDuration`);
+                    $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].Duration`);
 
                     $(elem).find('.normal-user-input').each(function(index) {
                         $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
