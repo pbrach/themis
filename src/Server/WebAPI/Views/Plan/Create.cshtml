@@ -1,4 +1,3 @@
-@using System.Runtime.InteropServices
 @using AppDomain.Requests
 @model WebAPI.Models.PlanFormViewModel
 
@@ -40,7 +39,11 @@
 </div>
 
 
+
+
 @* ====== Templates ====== *@
+
+@*template: Chore*@
 <template id="chore-template">
     <div class="add-chores-form pb-1 px-5 pt-1 form-group">
         <div class="row">
@@ -63,18 +66,42 @@
             <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
                 @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
                 {
-                    <option class="interval-option" value="@fName" @{fName == "Duration Interval" ? "selected" : ""} >@fName</option>
+                    <option class="interval-option" value="@fName"
+                            @{ fName == "Duration Interval" ? "selected" : ""}>
+                        @fName</option>
                 }
             </select>
-            <label class="form-label mr-3">
-                Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-            </label>
-            <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+            <div class="interval-parameter-form form-inline">
+                <label class="form-label mr-3">
+                    Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                </label>
+                <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+            </div>
         </div>
     </div>
 </template>
 
+@*template: Intervals:: Duration-Interval*@
+<template id="Duration-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+    </div>
+</template>
 
+@*template: Intervals:: Week-Interval*@
+<template id="Week-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Select starting week by any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].DayDuration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
+    </div>
+</template>
+
+@*template: Add User*@
 <template id="user-template">
     <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
         <input class="form-control normal-user-input p-0 bg-light"/>
@@ -85,101 +112,123 @@
 </template>
 
 
+
+
+
+@* ====== jQuery ====== *@
+
 @section Scripts {
     <script type="text/javascript">
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        function suppressEnter(e) {
-            if (e.keyCode == 13) {
-                e.preventDefault();
-                return false;
+            function suppressEnter(e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    return false;
+                }
             }
-        }
 
-        // Prepare the User-Edit-Template
-        var addChoreTemplate = $($('#chore-template').html());
-        var addUserTemplate = $($('#user-template').html());
-        [$("form"), addChoreTemplate, addUserTemplate].forEach(item => item.keypress(suppressEnter));
-
-
-        // Add CHORES form
-        $(".btn-add-chore").click(e => {
-            e.preventDefault();
-            var dynamicClone = addChoreTemplate.clone(true);
-            dynamicClone.insertBefore('.btn-add-chore');
-        });
-        // add a first chore-form:
-        var dynamicClone = addChoreTemplate.clone(true);
-        dynamicClone.insertBefore('.btn-add-chore');
+            // Prepare the User-Edit-Template
+            const addChoreTemplate = $($('#chore-template').html());
+            const addUserTemplate = $($('#user-template').html());
+            [$("form"), addChoreTemplate, addUserTemplate].forEach(item => item.keypress(suppressEnter));
 
 
-        // Remove CHORES from
-        $("#dynamic-chores-list").on('click',
-            '.btn-remove-chore',
-            function(e) {
+            // Add CHORES form
+            $(".btn-add-chore").click(e => {
                 e.preventDefault();
-                $(this).closest('.add-chores-form').remove();
-                return false;
+                var dynamicClone = addChoreTemplate.clone(true);
+                dynamicClone.insertBefore('.btn-add-chore');
             });
+            // add a first chore-form:
+            const firstChoreClone = addChoreTemplate.clone(true);
+            firstChoreClone.insertBefore('.btn-add-chore');
 
 
-        // Add USER Action
-        $("#dynamic-chores-list").on('keyup.add-user-input',
-            function(e) {
-                if (e.keyCode != 13)
-                    return;
-                e.preventDefault();
-                var userAdderInput = $(e.target);
-                var userName = userAdderInput.val().trim();
-                if (userName === "")
-                    return;
-
-                var dynamicClone = addUserTemplate.clone(true);
-                var cloneUserInput = $(dynamicClone.children()[0]);
-
-                cloneUserInput.val(userName);
-                cloneUserInput.attr('size', userName.length);
-                userAdderInput.val("");
-
-                dynamicClone.insertBefore($(e.target).closest('.add-user-group'));
-            });
-
-        // Remove USER Action
-        $('#dynamic-chores-list').on('click',
-            '.btn-remove-user',
-            function(e) {
-                e.preventDefault();
-                $(e.target).closest('.user-form-group').remove();
-                return false;
-            });
+            // Remove CHORES from
+            $("#dynamic-chores-list").on('click',
+                '.btn-remove-chore',
+                function(e) {
+                    e.preventDefault();
+                    $(this).closest('.add-chores-form').remove();
+                    return false;
+                });
 
 
-        // INDEX and Data-Mapping of all Chore fields
-        $('form').submit(function(e) {
-            $('.add-user-input').prop("disabled", true);
+            // Add USER Action
+            $("#dynamic-chores-list").on('keyup.add-user-input',
+                function(e) {
+                    if (e.keyCode != 13)
+                        return;
+                    e.preventDefault();
+                    const userAdderInput = $(e.target);
+                    const userName = userAdderInput.val().trim();
+                    if (userName === "")
+                        return;
 
-            $('.add-chores-form').each(function(choreIdx, elem) {
+                    const dynamicClone = addUserTemplate.clone(true);
+                    const cloneUserInput = $(dynamicClone.children()[0]);
 
-                $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
-                
-                $(elem).find('.chore-description').attr('name', `Chores[${choreIdx}].Description`);
-                
-                $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
-                
-                $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].DayDuration`);
+                    cloneUserInput.val(userName);
+                    cloneUserInput.attr('size', userName.length);
+                    userAdderInput.val("");
 
-                $(elem).find('.normal-user-input').each(function(index) {
-                    $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
+                    dynamicClone.insertBefore($(e.target).closest('.add-user-group'));
+                });
+
+            // Remove USER Action
+            $('#dynamic-chores-list').on('click',
+                '.btn-remove-user',
+                function(e) {
+                    e.preventDefault();
+                    $(e.target).closest('.user-form-group').remove();
+                    return false;
+                });
+
+
+            // INDEX and Data-Mapping of all Chore fields
+            $('form').submit(function(e) {
+                $('.add-user-input').prop("disabled", true);
+
+                $('.add-chores-form').each(function(choreIdx, elem) {
+
+                    // TODO:
+                    // add newly added properties
+
+                    $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
+
+                    $(elem).find('.chore-description').attr('name', `Chores[${choreIdx}].Description`);
+
+                    $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
+
+                    $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].DayDuration`);
+
+                    $(elem).find('.normal-user-input').each(function(index) {
+                        $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
+                    });
                 });
             });
+
+
+            $('#dynamic-chores-list').on('click',
+                '.interval-type-selector',
+                function(e) {
+                    // dont do anything unless selection changed
+                    const self = $(this);
+                    const lastVal = self.attr('data-last-value');
+                    const currVal = self.val();
+                    if (lastVal === currVal) {
+                        return;
+                    }
+                    self.attr('data-last-value', currVal);
+                    
+                    // remove current form
+                    self.next().remove();
+                    
+                    // add the correct template
+                    const newTemplate = $($('template#' + currVal.replace(" ", "-")).html());
+                    newTemplate.insertAfter(self);
+                });
         });
-
-
-        $('.interval-type-selector').on('click.interval-option',
-            function(e) {
-                console.log($('.interval-type-selector').attr('data-last-value')+ " | "+ $(this).find('option:selected').val());
-                $('.interval-type-selector').attr('data-last-value', $(this).find('option:selected').val());
-            });
-    });
     </script>
 }
