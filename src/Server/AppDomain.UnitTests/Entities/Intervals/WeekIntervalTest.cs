@@ -47,7 +47,7 @@ namespace AppDomain.UnitTests.Entities.Intervals
                             LastActiveDay = DateTime.Parse("2019-02-17")
                         }
                     },
-                    "2019-01-28", "2019-01-29"
+                    "2019-01-29", "2019-01-29"
                 };
                 yield return new object[]
                 {

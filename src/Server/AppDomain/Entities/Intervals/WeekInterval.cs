@@ -12,7 +12,7 @@ namespace AppDomain.Entities.Intervals
     /// This allows to store the original data (perhaps the day the plan was started)
     /// in the DB while still providing the correct functionality.
     /// </summary>
-    public class WeekInterval: Interval
+    public class WeekInterval: DurationInterval
     {
         public override string FriendlyName => "Week Interval";
 
