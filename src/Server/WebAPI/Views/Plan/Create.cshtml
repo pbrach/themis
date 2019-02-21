@@ -95,9 +95,19 @@
 <template id="Week-Interval">
     <div class="interval-parameter-form">
         <label class="form-label mr-3">
-            Select starting week by any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+            Select starting week with any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
         </label>
         <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
+    </div>
+</template>
+
+@*template: Intervals:: Month-Interval*@
+<template id="Month-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Select starting month with any date within that month: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in months" pattern="[1-9]\d*"/>
     </div>
 </template>
 
