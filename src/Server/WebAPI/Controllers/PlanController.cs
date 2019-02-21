@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Integrations;
 using WebAPI.Models;
 using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
 using RetrievePlanIntegrator = WebAPI.Integrations.RetrievePlanIntegrator;
@@ -25,6 +26,44 @@ namespace WebAPI.Controllers
             return View("Error", resultVm);
         }
         
+        
+        
+        /// <summary>
+        /// Get FORM for EDIT-Plan
+        /// </summary>
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            var token = "notoken";
+            var resultVm = new RetrievePlanFormIntegrator(id, token).Run();
+            if (resultVm is PlanFormViewModel planFormViewModel)
+            {   
+                return View(planFormViewModel);  
+            }
+            
+            // ERROR Handling
+            return View("Error", resultVm);
+        }
+        
+
+        /// <summary>
+        /// EDIT Plan
+        /// </summary>
+        [HttpPost]
+        public IActionResult Index(string id, string token, PlanFormViewModel planFormVm)
+        {
+            var resultVm = new CreatePlanIntegrator(planFormVm).Run();
+
+            if (resultVm is SuccessViewModel successViewModel)
+            {
+                return RedirectToAction("Success", "Plan", successViewModel);   
+            }
+            
+            // ERROR Handling
+            return View("Error", resultVm);
+        }
+        
+        
         /// <summary>
         /// CREATE Plan
         /// </summary>
@@ -43,6 +82,7 @@ namespace WebAPI.Controllers
         }
 
         
+        
         /// <summary>
         /// SHOW CREATE Form
         /// </summary>
@@ -51,6 +91,8 @@ namespace WebAPI.Controllers
         {
             return View();
         }
+        
+        
         
         /// <summary>
         /// SHOW Successfully-Created-Plan with access and auth links

@@ -2,7 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-$(document).ready(function() {
+$(document).ready(function () {
 
     function suppressEnter(e) {
         if (e.key === "Enter") {
@@ -19,21 +19,25 @@ $(document).ready(function() {
 
 
     // Add CHORES form
-    $(".btn-add-chore").click(e => {
+    $('.btn-add-chore').click(e => {
         e.preventDefault();
-    const dynamicClone = addChoreTemplate.clone(true);
-    dynamicClone.insertBefore('.btn-add-chore');
-});
-    // add a first chore-form:
-    const firstChoreClone = addChoreTemplate.clone(true);
-    firstChoreClone.insertBefore('.btn-add-chore');
-
-
+        const dynamicClone = addChoreTemplate.clone(true);
+        dynamicClone.insertBefore('.btn-add-chore');
+    });
+    
+    // add a first chore-form (if not in edit mode)
     const jqDynChoresList = $('#dynamic-chores-list');
+    const firstChoreClone = addChoreTemplate.clone(true);
+    if (!jqDynChoresList.hasClass('edit-form')) {
+        firstChoreClone.insertBefore('.btn-add-chore');
+    }
+
+
+    
     // Remove CHORES from
     jqDynChoresList.on('click',
         '.btn-remove-chore',
-        function(e) {
+        function (e) {
             e.preventDefault();
             $(this).closest('.add-chores-form').remove();
             return false;
@@ -42,7 +46,7 @@ $(document).ready(function() {
 
     // Add USER Action
     jqDynChoresList.on('keyup.add-user-input',
-        function(e) {
+        function (e) {
             if (e.key !== "Enter")
                 return;
             e.preventDefault();
@@ -64,7 +68,7 @@ $(document).ready(function() {
     // Remove USER Action
     jqDynChoresList.on('click',
         '.btn-remove-user',
-        function(e) {
+        function (e) {
             e.preventDefault();
             $(e.target).closest('.user-form-group').remove();
             return false;
@@ -73,7 +77,7 @@ $(document).ready(function() {
 
     jqDynChoresList.on('click',
         '.interval-type-selector',
-        function() {
+        function () {
             // dont do anything unless selection changed
             const self = $(this);
             const lastVal = self.attr('data-last-value');
@@ -92,12 +96,11 @@ $(document).ready(function() {
         });
 
 
-
     // INDEX and Data-Mapping of all Chore fields
-    jqForm.submit(function() {
+    jqForm.submit(function () {
         $('.add-user-input').prop("disabled", true);
 
-        $('.add-chores-form').each(function(choreIdx, elem) {
+        $('.add-chores-form').each(function (choreIdx, elem) {
 
             $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
 
@@ -109,7 +112,7 @@ $(document).ready(function() {
 
             $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].Duration`);
 
-            $(elem).find('.normal-user-input').each(function(index) {
+            $(elem).find('.normal-user-input').each(function (index) {
                 $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
             });
         });

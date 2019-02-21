@@ -1,0 +1,171 @@
+@using AppDomain.Requests
+@model WebAPI.Models.PlanFormViewModel
+
+@{
+    var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
+    ViewBag.Title = "Edit A Plan";
+}
+
+<h2 class="text-center display-6">
+    <strong>@ViewBag.Title</strong>
+</h2>
+
+<div class="pt-5">
+    @using (Html.BeginForm("Index", "Plan",
+        null, FormMethod.Post, true, null))
+    {
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group form-inline">
+                    <input type="text" class="w-100 form-control form-control-lg" id="main-1"
+                           name="@Html.DisplayNameFor(m => m.Title)" 
+                           placeholder="A title for your plan" value="@Model.Title">
+                </div>
+
+                <div class="form-group form-inline ">
+                    <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" 
+name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about">@Model.Description</textarea>
+                </div>
+            </div>
+        </div>
+        
+        
+        foreach (var chore in Model.Chores)
+        {
+            <div class="add-chores-form pb-1 px-5 pt-1 form-group">
+                <div class="row">
+                    <button class="form-control btn chore-form-btn btn-remove-chore w-auto ml-auto m-3">
+                        <i class="icon-rm-chore fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="form-group form-row justify-content-between align-top">
+                    <input type="text" class="form-control chore-title col-5" name="Chores[0].Title" placeholder="Title / what to do" value="@chore.Title" />
+                    <textarea rows="2" class="form-control chore-description col-6" name="Chores[0].Description" placeholder="Detailed description">@chore.Description</textarea>
+                </div>
+
+                <div class="add-user-form row form-group">
+                    @foreach (var userName in chore.AssignedUsers)
+                    {
+                        <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
+                            <input class="form-control normal-user-input p-0 bg-light" value="@userName"/>
+                            <button class="form-control btn chore-form-btn btn-remove-user bg-light">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>                        
+                    }
+                    <div class="form-inline add-user-group user-form-group mt-2">
+                        <input class="form-control add-user-input w-100" placeholder="add user..."/>
+                    </div>
+                </div>
+
+                <div class="add-interval-from form-group form-inline">
+                    <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
+                        @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
+                        {
+                            <option class="interval-option" value="@fName" 
+                                    @{ fName == chore.IntervalType ? "selected" : ""}>
+                                @fName</option>
+                        }
+                    </select>
+                    <div class="interval-parameter-form form-inline">
+                        <label class="form-label mr-3">
+                            Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                        </label>
+                        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div id="dynamic-chores-list edit-form">
+            <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light">
+                <i class="fas fa-plus mr-3"></i>add chore
+            </button>
+        </div>
+
+        <div class="col text-center push-to-bottom">
+            <input type="submit" id="main-submit" class="w-25 form-control btn btn-primary btn-lg" value="Create">
+        </div>
+    }
+</div>
+
+
+@* ====== Templates ====== *@
+
+@*template: Chore*@
+<template id="chore-template">
+    <div class="add-chores-form pb-1 px-5 pt-1 form-group">
+        <div class="row">
+            <button class="form-control btn chore-form-btn btn-remove-chore w-auto ml-auto m-3">
+                <i class="icon-rm-chore fas fa-times"></i>
+            </button>
+        </div>
+        <div class="form-group form-row justify-content-between align-top">
+            <input type="text" class="form-control chore-title col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
+            <textarea rows="2" class="form-control chore-description col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
+        </div>
+
+        <div class="add-user-form row form-group">
+            <div class="form-inline add-user-group user-form-group mt-2">
+                <input class="form-control add-user-input w-100" placeholder="add user..."/>
+            </div>
+        </div>
+
+        <div class="add-interval-from form-group form-inline">
+            <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
+                @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
+                {
+                    <option class="interval-option" value="@fName"
+                            @{ fName == "Duration Interval" ? "selected" : ""}>
+                        @fName</option>
+                }
+            </select>
+            <div class="interval-parameter-form form-inline">
+                <label class="form-label mr-3">
+                    Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                </label>
+                <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+@*template: Intervals:: Duration-Interval*@
+<template id="Duration-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+    </div>
+</template>
+
+@*template: Intervals:: Week-Interval*@
+<template id="Week-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Select starting week with any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
+    </div>
+</template>
+
+@*template: Intervals:: Month-Interval*@
+<template id="Month-Interval">
+    <div class="interval-parameter-form">
+        <label class="form-label mr-3">
+            Select starting month with any date within that month: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+        </label>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in months" pattern="[1-9]\d*"/>
+    </div>
+</template>
+
+@*template: Add User*@
+<template id="user-template">
+    <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
+        <input class="form-control normal-user-input p-0 bg-light"/>
+        <button class="form-control btn chore-form-btn btn-remove-user bg-light">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</template>
