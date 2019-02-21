@@ -83,28 +83,13 @@ namespace AppDomain.Entities.Intervals
         public override Assignment GetAssignmentPeriod(uint turnNumber)
         {
             var totalElapsedMonths = turnNumber * Duration;
-//            var divElapsedMonths = totalElapsedMonths % 12;
-            var elapsedYears = (StartMonth + totalElapsedMonths) / 12;
-            
-//            uint turnStartMonth = (StartMonth + divElapsedMonths) % 12;
-            var turnStartMonth = (StartMonth + totalElapsedMonths) % 12;
-//            uint overHangYear = (StartMonth + divElapsedMonths) > 12 ? 1U : 0U;
-            var turnStartYear = StartYear + elapsedYears;// +  overHangYear;
-            
-            var firstDayOfDuty = new DateTime((int)turnStartYear, (int)turnStartMonth, 1);
+            var firstActive = IntervalStart.AddMonths((int) totalElapsedMonths);
 
-
-            var turnEndMonth = (turnStartMonth + Duration - 1) % 12;
-            var turnEndYear= turnStartYear + (turnStartMonth + Duration - 1) / 12;
-            var turnEndDay = CultureInfo.InvariantCulture.Calendar.GetDaysInMonth((int)turnEndYear, (int)turnEndMonth);
-            
-            var lastDayOfDuty = new DateTime((int)turnEndYear, (int)turnEndMonth, turnEndDay);
-            
             return new Assignment
             {
                 TurnNumber = turnNumber,
-                FirstActiveDay = firstDayOfDuty,
-                LastActiveDay = lastDayOfDuty
+                FirstActiveDay = firstActive,
+                LastActiveDay = firstActive.AddMonths((int)Duration) - TimeSpan.FromDays(1)
             };
         }
 
