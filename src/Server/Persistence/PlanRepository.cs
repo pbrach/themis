@@ -119,11 +119,16 @@ namespace Persistence
             interval.StartDay = dbChore.StartDay;
             interval.StartOfWeek = dbChore.StartOfWeek;
             
+            string[] assis= {};
+            if (!string.IsNullOrEmpty(dbChore.AssignedUsers))
+            {
+                assis = dbChore.AssignedUsers.Split(";");
+            }
             return new Chore
             {
                 Title = dbChore.Title,
                 Description = dbChore.Description,
-                AssignedUsers = dbChore.AssignedUsers.Split(";"),
+                AssignedUsers = assis,
                 Interval = interval
             };
         }
