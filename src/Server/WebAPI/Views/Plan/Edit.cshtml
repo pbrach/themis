@@ -4,6 +4,10 @@
 @{
     var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
     ViewBag.Title = "Edit Your Plan";
+    
+    ViewData["Duration Interval"] = new {start = "Starting Day: ", duration = "Duration in days"};
+    ViewData["Week Interval"] = new {start = "Select starting week with any date within that week: ", duration = "Duration in weeks"};
+    ViewData["Month Interval"] = new {start = "Select starting month with any date within that month:", duration = "Duration in months"};
 }
 
 <h2 class="text-center display-6">
@@ -67,11 +71,15 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
                                 @fName</option>
                         }
                     </select>
+                    @{
+                        var start = ((dynamic)ViewData[chore.IntervalType]).start;
+                        var duration = ((dynamic)ViewData[chore.IntervalType]).duration;
+                    }
                     <div class="interval-parameter-form form-inline">
                         <label class="form-label mr-3">
-                            Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
+                            @start<input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@chore.StartDay.ToString("yyyy-MM-dd")"/>
                         </label>
-                        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
+                        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="@duration" pattern="[1-9]\d*" value="@chore.Duration"/>
                     </div>
                 </div>
             </div>
