@@ -22,7 +22,13 @@ namespace WebAPI.Integrations
 
             cfg.CreateMap<ChoreFormViewModel, Chore>()
                 .ForMember(m => m.Interval,
-                    e => e.MapFrom(model => ThemisMap(model)));
+                    opt => opt.MapFrom(model => ThemisMap(model)));
+
+            cfg.CreateMap<Chore, ChoreFormViewModel>()
+                .ForMember(m => m.IntervalType, opt => opt.MapFrom(model => model.Interval.FriendlyName))
+                .ForMember(m => m.Duration, opt => opt.MapFrom(model => (int) model.Interval.Duration))
+                .ForMember(m => m.StartDay, opt => opt.MapFrom(model => model.Interval.StartDay))
+                .ForMember(m => m.StartOfWeek, opt => opt.MapFrom(model => model.Interval.StartOfWeek));
 
             cfg.CreateMap<Plan, PlanViewModel>()
                 .ForMember(m => m.Chores,
