@@ -3,7 +3,7 @@
 
 @{
     var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
-    ViewBag.Title = "Edit A Plan";
+    ViewBag.Title = "Edit Your Plan";
 }
 
 <h2 class="text-center display-6">
@@ -77,7 +77,7 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
             </div>
         }
 
-        <div id="dynamic-chores-list edit-form">
+        <div id="dynamic-chores-list" class="edit-form">
             <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light">
                 <i class="fas fa-plus mr-3"></i>add chore
             </button>
