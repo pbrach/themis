@@ -35,8 +35,8 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
             </div>
         </div>
         
-        
-        foreach (var chore in Model.Chores)
+        <div id="dynamic-chores-list" class="edit-form">
+        @foreach (var chore in Model.Chores)
         {
             <div class="add-chores-form pb-1 px-5 pt-1 form-group">
                 <div class="row">
@@ -68,8 +68,8 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
                     <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
                         @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
                         {
-                            <option class="interval-option" value="@fName" 
-                                    @{ fName == chore.IntervalType ? "selected" : ""}>
+                            var sel = fName == chore.IntervalType ? "selected" : null;
+                            <option class="interval-option" value="@fName" selected="@sel" >
                                 @fName</option>
                         }
                     </select>
@@ -87,7 +87,6 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
             </div>
         }
 
-        <div id="dynamic-chores-list" class="edit-form">
             <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light">
                 <i class="fas fa-plus mr-3"></i>add chore
             </button>
