@@ -15,7 +15,13 @@ $(document).ready(function () {
     const addChoreTemplate = $($('#chore-template').html());
     const addUserTemplate = $($('#user-template').html());
     const jqForm = $("form");
-    [jqForm, addChoreTemplate, addUserTemplate].forEach(item => item.keypress(suppressEnter));
+    [
+        jqForm, 
+        addChoreTemplate, 
+        addUserTemplate,
+        $('.add-chores-form'),
+        $('.user-form-group')
+    ].forEach(item => item.keypress(suppressEnter));
 
 
     // Add CHORES form
