@@ -34,8 +34,9 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            var token = "notoken";
-            var resultVm = new RetrievePlanFormIntegrator(id, token).Run();
+            ViewBag.PlanId = id;
+            ViewBag.Token = "notoken";
+            var resultVm = new RetrievePlanFormIntegrator(id, ViewBag.Token).Run();
             if (resultVm is PlanFormViewModel planFormViewModel)
             {   
                 return View(planFormViewModel);  
@@ -50,9 +51,9 @@ namespace WebAPI.Controllers
         /// EDIT Plan
         /// </summary>
         [HttpPost]
-        public IActionResult Index(string id, string token, PlanFormViewModel planFormVm)
+        public IActionResult Edit(string id, string token, PlanFormViewModel planFormVm)
         {
-            var resultVm = new CreatePlanIntegrator(planFormVm).Run();
+            var resultVm = new UpdatePlan(planFormVm, id, token).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
             {

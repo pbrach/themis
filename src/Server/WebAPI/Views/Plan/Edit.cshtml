@@ -14,8 +14,10 @@
     <strong>@ViewBag.Title</strong>
 </h2>
 
+<input type="hidden" name="id" value="@ViewBag.PlanId"/>
+<input type="hidden" name="token" value="@ViewBag.Token"/>
 <div class="pt-5">
-    @using (Html.BeginForm("Index", "Plan",
+    @using (Html.BeginForm("Edit", "Plan",
         null, FormMethod.Post, true, null))
     {
         <div class="row">

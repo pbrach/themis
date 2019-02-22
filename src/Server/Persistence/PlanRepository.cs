@@ -46,6 +46,27 @@ namespace Persistence
             return wasSuccess;
         }
 
+        public bool DeletePlan(string id)
+        {
+            var wasSuccess = false;
+            using (var ctx = new ThemisContext())
+            {
+                var plan = ctx.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
+                if (plan == null)
+                {
+                    return false;
+                }
+                
+                ctx.Chores.RemoveRange(plan.Chores);
+                ctx.Plans.Remove(plan);
+                var result = ctx.SaveChanges();
+
+                wasSuccess = result != 0;
+            }
+
+            return wasSuccess;
+        }
+
         private static DbPlan MapFromBl(Plan plan)
         {
             return new DbPlan
