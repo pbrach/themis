@@ -31,7 +31,7 @@ For editing a plan we want to use a second similar ID in the URL as an authoriza
 | `~/plan`                   | POST        | CREATEs a new plan. Data must be provided as Json in the request body. On submit success, the client is redirected to `~/plan/success`. |
 | `~/plan/success`           | GET         | SHOWs the two urls to the plan (one with `acc-hash` and one with `authhash`) |
 | `~/plan/{id}`              | GET         | SHOWs the read-only plan. Might allow queries/filtering in future |
-| `~/plan/{id}?token={token}`| GET         | SHOWs EDIT form for the plan. |
+| `~/plan/edit/{id}?token={token}`| GET         | SHOWs EDIT form for the plan. |
 | `~/plan/{id}?token={token}`| PUT         | UPDATEs the plan. Data must be provided as Json in the request body. On submit success, the client is redirected to `GET:~/plan/<{id}>`. |
 | `~/plan/{id}?token={token}`| DELETE      | DELETEs the plan. Data must be provided as Json in the request body. On submit success, the client is redirected to `GET:~/`. |
 
