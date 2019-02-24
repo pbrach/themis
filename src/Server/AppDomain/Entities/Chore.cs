@@ -32,8 +32,14 @@ namespace AppDomain.Entities
             else
             {
                 result = Interval.GetAssignmentPeriod(turnNumber.Value);
-                var assignmentId = turnNumber.Value % AssignedUsers.Length;
-                result.AssigneeName = AssignedUsers[assignmentId];
+                var numOfUSers = AssignedUsers.Length;
+
+                result.AssigneeName = "No Assignees";
+                if (numOfUSers > 0)
+                {
+                    var assignmentId = turnNumber.Value % AssignedUsers.Length;
+                    result.AssigneeName = AssignedUsers[assignmentId];
+                }
             }
 
             return result;
