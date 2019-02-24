@@ -64,6 +64,20 @@ namespace WebAPI.Controllers
             return View("Error", resultVm);
         }
         
+       
+        
+        
+        /// <summary>
+        /// SHOW CREATE Form
+        /// </summary>
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        
+        
+        
         
         /// <summary>
         /// CREATE Plan
@@ -80,17 +94,6 @@ namespace WebAPI.Controllers
             
             // ERROR Handling
             return View("Error", resultVm);
-        }
-
-        
-        
-        /// <summary>
-        /// SHOW CREATE Form
-        /// </summary>
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
         }
         
         
