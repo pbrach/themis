@@ -9,7 +9,7 @@ namespace WebAPI.Controllers
     {
         public IActionResult Index()
         {
-            var ids = new PlanRepository().AllPlanIds();
+            var ids = new PlanRepository().GetAccessInfos();
             return View(ids);
         }
 

@@ -1,5 +1,4 @@
 using AppDomain.Entities;
-using AppDomain.Requests;
 using AutoMapper;
 using Persistence;
 using WebAPI.Models;
@@ -25,8 +24,15 @@ namespace WebAPI.Integrations
 
         public object Run()
         {
+            var dbPLan = PlanRepo.RetrievePlan(_id);
+            if (dbPLan.Token != _token)
+            {
+                return new ErrorViewModel {ErrorMessage = "Invalid access token"};
+            }
+            
             var inputBlPlan = Mapper.Map<Plan>(PlanFormViewModel);
             inputBlPlan.Id = _id;
+            inputBlPlan.Token = _token;
             
             var planWasDeleted = PlanRepo.DeletePlan(_id);
             if (!planWasDeleted)
@@ -37,10 +43,10 @@ namespace WebAPI.Integrations
             var planWasStored = PlanRepo.StoreNewPlan(inputBlPlan);
             if (!planWasStored)
             {
-                return new ErrorViewModel {ErrorMessage = "Update failed: the plan was deleted"}; // NOT COOL!!!
+                return new ErrorViewModel {ErrorMessage = "Update failed: the plan was deleted"}; // TODO: NOT COOL!!!
             }
 
-            return new SuccessViewModel {Id = _id, AuthToken = string.Empty};
+            return new SuccessViewModel {Id = _id, Token = _token};
         }
     }
 }

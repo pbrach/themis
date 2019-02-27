@@ -32,13 +32,14 @@ namespace WebAPI.Controllers
         /// Get FORM for EDIT-Plan
         /// </summary>
         [HttpGet]
-        public IActionResult Edit(string id)
+        public IActionResult Edit(string id, string token)
         {
-            ViewBag.PlanId = id;
-            ViewBag.Token = "notoken";
             var resultVm = new RetrievePlanFormIntegrator(id, ViewBag.Token).Run();
+            
             if (resultVm is PlanFormViewModel planFormViewModel)
             {   
+                ViewBag.PlanId = id;
+                ViewBag.Token = token;
                 return View(planFormViewModel);  
             }
             
@@ -57,6 +58,7 @@ namespace WebAPI.Controllers
 
             if (resultVm is SuccessViewModel successViewModel)
             {
+                successViewModel.SuccessActionName = "changed";
                 return RedirectToAction("Success", "Plan", successViewModel);   
             }
             
@@ -89,6 +91,7 @@ namespace WebAPI.Controllers
 
             if (resultVm is SuccessViewModel successViewModel)
             {
+                successViewModel.SuccessActionName = "created";
                 return RedirectToAction("Success", "Plan", successViewModel);   
             }
             

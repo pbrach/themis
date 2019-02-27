@@ -34,7 +34,7 @@ namespace WebAPI.Integrations
                 return new ErrorViewModel {ErrorMessage = response.ErrorMessage};
             }
 
-            return new SuccessViewModel {Id = response.PlanId, AuthToken = string.Empty};
+            return new SuccessViewModel {Id = response.PlanId, Token = inputBlPlan.Token};
         }
     }
 }

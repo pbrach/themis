@@ -53,6 +53,8 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<string>("Token");
+
                     b.HasKey("Id");
 
                     b.ToTable("Plans");

@@ -5,6 +5,8 @@ namespace AppDomain.Entities
     public class Plan
     {
         public string Id { get; set; }
+        
+        public string Token { get; set; }
 
         public string Title { get; set; }
         

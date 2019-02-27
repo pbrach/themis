@@ -1,4 +1,4 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<Tuple<string, string>>
 
 @{
     ViewData["Title"] = "Home";
@@ -25,10 +25,10 @@
     <div class="container mt-5">
         <h4>(DEBUG) Existing Plans</h4>
         <ol>
-        @foreach (var planId in Model)
+        @foreach (var (planId, planToken ) in Model)
         {
             var showUrl = hostBaseUrl + @Url.Action("Index", "Plan", new {id = planId});
-            <li>@Html.ActionLink(showUrl, "Index", "Plan", new {id = planId}) - @Html.ActionLink("Edit", "Edit", "Plan", new {id = planId, token="notoken"})</li>
+            <li>@Html.ActionLink(showUrl, "Index", "Plan", new {id = planId}) - @Html.ActionLink("Edit", "Edit", "Plan", new {id = planId, token=planToken})</li>
         }
         </ol>
     </div>

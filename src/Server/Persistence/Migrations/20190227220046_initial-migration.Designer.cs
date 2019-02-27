@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ThemisContext))]
-    [Migration("20190219132454_Initial-Migration")]
-    partial class InitialMigration
+    [Migration("20190227220046_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,8 @@ namespace Persistence.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("Title");
+
+                    b.Property<string>("Token");
 
                     b.HasKey("Id");
 

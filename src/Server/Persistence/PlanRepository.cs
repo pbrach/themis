@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AppDomain.Entities;
@@ -20,12 +21,12 @@ namespace Persistence
             return exists;        
         }
         
-        public IEnumerable<string> AllPlanIds()
+        public IEnumerable<Tuple<string, string>> GetAccessInfos()
         {
-            var idList = new List<string>();
+            var idList = new List<Tuple<string, string>>();
             using (var ctx = new ThemisContext())
             {
-                idList.AddRange(ctx.Plans.Select(x => x.Id));
+                idList.AddRange(ctx.Plans.Select(x => new Tuple<string, string>(x.Id, x.Token)));
             }
 
             return idList;        
@@ -72,6 +73,7 @@ namespace Persistence
             return new DbPlan
             {
                 Id = plan.Id,
+                Token = plan.Token,
                 Title = plan.Title,
                 Description = plan.Description,
                 Chores = plan.Chores.Select(MapFromBl).ToList()
@@ -104,6 +106,7 @@ namespace Persistence
             var plan = new Plan
             {
                 Id = dbPlan.Id,
+                Token = dbPlan.Token,
                 Title = dbPlan.Title,
                 Description = dbPlan.Description,
                 Chores = dbPlan.Chores.Select(MapFromDb)

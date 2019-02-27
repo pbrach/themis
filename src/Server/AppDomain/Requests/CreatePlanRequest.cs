@@ -33,6 +33,12 @@ namespace AppDomain.Requests
             {
                 return new CreatePlanResponse {ErrorMessage = "Could not create an unique ID for the plan"};
             }
+            
+            _plan.Token = TryGetPlanId();
+            if (_plan.Token == null)
+            {
+                return new CreatePlanResponse {ErrorMessage = "Could not create an unique token for the plan"};
+            }
 
             var storeWasSuccessful = _storePlan(_plan);
             if (!storeWasSuccessful)
