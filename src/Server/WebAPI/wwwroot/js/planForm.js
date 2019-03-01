@@ -29,6 +29,7 @@ $(document).ready(function () {
         e.preventDefault();
         const dynamicClone = addChoreTemplate.clone(true);
         dynamicClone.insertBefore('.btn-add-chore');
+        updateIndices();
     });
     
     // add a first chore-form (if not in edit mode)
@@ -46,6 +47,7 @@ $(document).ready(function () {
         function (e) {
             e.preventDefault();
             $(this).closest('.add-chores-form').remove();
+            updateIndices();
             return false;
         });
 
@@ -69,6 +71,7 @@ $(document).ready(function () {
             userAdderInput.val("");
 
             dynamicClone.insertBefore($(e.target).closest('.add-user-group'));
+            updateIndices();
         });
 
     // Remove USER Action
@@ -77,35 +80,11 @@ $(document).ready(function () {
         function (e) {
             e.preventDefault();
             $(e.target).closest('.user-form-group').remove();
+            updateIndices();
             return false;
         });
 
-
-    jqDynChoresList.on('click',
-        '.interval-type-selector',
-        function () {
-            // dont do anything unless selection changed
-            const self = $(this);
-            const lastVal = self.attr('data-last-value');
-            const currVal = self.val();
-            if (lastVal === currVal) {
-                return;
-            }
-            self.attr('data-last-value', currVal);
-
-            // remove current form
-            self.next().remove();
-
-            // add the correct template
-            const newTemplate = $($('template#' + currVal.replace(" ", "-")).html());
-            newTemplate.insertAfter(self);
-        });
-
-
-    // INDEX and Data-Mapping of all Chore fields
-    jqForm.submit(function () {
-        $('.add-user-input').prop("disabled", true);
-
+    function updateIndices() {
         $('.add-chores-form').each(function (choreIdx, elem) {
 
             $(elem).find('.chore-title').attr('name', `Chores[${choreIdx}].Title`);
@@ -114,7 +93,7 @@ $(document).ready(function () {
 
             $(elem).find('.interval-type-selector').attr('name', `Chores[${choreIdx}].IntervalType`);
 
-            $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
+            // $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
 
             $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].Duration`);
 
@@ -122,5 +101,10 @@ $(document).ready(function () {
                 $(this).attr('name', `Chores[${choreIdx}].AssignedUsers[${index}]`);
             });
         });
+    }
+
+    // INDEX and Data-Mapping of all Chore fields
+    jqForm.submit(function () {
+        $('.add-user-input').prop("disabled", true);
     });
 });

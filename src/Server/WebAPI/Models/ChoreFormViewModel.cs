@@ -10,7 +10,7 @@ namespace WebAPI.Models
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public int Duration { get; set; } =  1;
-        public DateTime StartDay { get; set; } = DateTime.Now;
+        public DateTime? StartDay { get; set; } = null;
         public DayOfWeek StartOfWeek { get; set; } = DayOfWeek.Monday;
         public string IntervalType { get; set; } = IntervalService.GetIntervalFriendlyNames().First();
         public IEnumerable<string> AssignedUsers { get; set; } = new List<string>(); 

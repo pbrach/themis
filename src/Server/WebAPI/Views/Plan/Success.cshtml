@@ -4,17 +4,18 @@
     ViewBag.Title = "Success Creating New Plan";
     var hostBaseUrl = "https://" + @Context.Request.Host;
 }
-<div class="container">
-    <h2 class="display-5 mb-3">Successfully @Model.SuccessActionName the plan</h2>
-    
-    <div class="card">
+<div class="container card">
+    <h2 class="display-5 mb-5">Successfully @Model.SuccessActionName the plan</h2>
+
+    <div class="">
         <p class="card-text">View and share the plan via this link:</p>
-        @{var showUrl1 = hostBaseUrl + @Url.Action("Index", "Plan", new {id = Model.Id});}
-        @Html.ActionLink(showUrl1, "Index", "Plan", new {id = Model.Id})</div>
+        @{ var showUrl1 = hostBaseUrl + @Url.Action("Index", "Plan", new {id = Model.Id}); }
+        @Html.ActionLink(showUrl1, "Index", "Plan", new {id = Model.Id})
+    </div>
 
-
-<div class="card mt-5">
-    <p class="card-text">Edit the plan via this link (share only with authorized users):</p>
-    @{var showUrl2 = hostBaseUrl + @Url.Action("Edit", "Plan", new {id = Model.Id, token = Model.Token});}
-    <a href="@showUrl2">@showUrl2</a></div>
+    <div class="mt-5">
+        <p class="card-text">Edit the plan via this link (share only with authorized users):</p>
+        @{ var showUrl2 = hostBaseUrl + @Url.Action("Edit", "Plan", new {id = Model.Id, token = Model.Token}); }
+        <a href="@showUrl2">@showUrl2</a>
+    </div>
 </div>

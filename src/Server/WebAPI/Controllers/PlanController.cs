@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Edit(string id, string token)
         {
-            var resultVm = new RetrievePlanFormIntegrator(id, ViewBag.Token).Run();
+            var resultVm = new RetrievePlanFormIntegrator(id, token).Run();
             
             if (resultVm is PlanFormViewModel planFormViewModel)
             {   

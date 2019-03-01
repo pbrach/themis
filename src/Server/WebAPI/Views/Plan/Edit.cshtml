@@ -1,13 +1,8 @@
-@using AppDomain.Requests
+@using WebAPI.Integrations
 @model WebAPI.Models.PlanFormViewModel
 
 @{
-    var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
     ViewBag.Title = "Edit Your Plan";
-    
-    ViewData["Duration Interval"] = new {start = "Starting Day: ", duration = "Duration in days"};
-    ViewData["Week Interval"] = new {start = "Select starting week with any date within that week: ", duration = "Duration in weeks"};
-    ViewData["Month Interval"] = new {start = "Select starting month with any date within that month:", duration = "Duration in months"};
 }
 
 <h2 class="text-center display-6">
@@ -31,6 +26,12 @@
                 <div class="form-group form-inline ">
                     <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" 
 name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about">@Model.Description</textarea>
+                </div>
+                
+                <div class="form-group form-inline ">
+                    <label class="form-label mr-3">
+                        On which day does the plan start? <input type="date" class="form-control plan-startdate ml-2" name="@Html.DisplayNameFor(m => m.StartDate)" value="@Model.StartDate.ToString("yyyy-MM-dd")"/>
+                    </label>
                 </div>
             </div>
         </div>
@@ -65,24 +66,17 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
                 </div>
 
                 <div class="add-interval-from form-group form-inline">
-                    <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
-                        @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
+                    <div class="interval-parameter-form">
+                        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="duration of an assignment" required="required" pattern="[1-9]\d*" value="@chore.Duration"/>
+                    </div>
+            
+                    <select class="interval-type-selector form-control ml-3" data-last-value="Duration Interval" name="Chores[0].IntervalType">
+                        @foreach (var (display, value) in IntervalNameService.Get())
                         {
-                            var sel = fName == chore.IntervalType ? "selected" : null;
-                            <option class="interval-option" value="@fName" selected="@sel" >
-                                @fName</option>
+                            var sel = value == chore.IntervalType ? "selected" : null;
+                            <option class="interval-option" value="@value" selected="@sel">@display</option>
                         }
                     </select>
-                    @{
-                        var start = ((dynamic)ViewData[chore.IntervalType]).start;
-                        var duration = ((dynamic)ViewData[chore.IntervalType]).duration;
-                    }
-                    <div class="interval-parameter-form form-inline">
-                        <label class="form-label mr-3">
-                            @start<input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@chore.StartDay.ToString("yyyy-MM-dd")"/>
-                        </label>
-                        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="@duration" pattern="[1-9]\d*" value="@chore.Duration"/>
-                    </div>
                 </div>
             </div>
         }
@@ -101,3 +95,8 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
 @* Render all needed Templates for Dynamic-Forms *@
 @* ====================================== *@
 <partial name="_ChoreTemplates"/>
+
+@section Scripts{
+    <script src="~/js/jquery.serializeToJSON.js"></script>
+    <script src="~/js/planForm.js" asp-append-version="true"></script>
+}

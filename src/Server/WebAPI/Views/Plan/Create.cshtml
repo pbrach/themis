@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Create A Plan";
+    var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 <h2 class="text-center display-6">
@@ -10,7 +11,7 @@
 
 <div class="pt-5">
     @using (Html.BeginForm("Index", "Plan",
-        null, FormMethod.Post, true, null))
+        null, FormMethod.Post, true, new {id = "create-plan-form"}))
     {
         <div class="row">
             <div class="col-8">
@@ -22,6 +23,12 @@
                 <div class="form-group form-inline ">
                     <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
                 </div>
+
+                <div class="form-group form-inline ">
+                    <label class="form-label mr-3">
+                        On which day does the plan start? <input type="date" class="form-control plan-startdate ml-2" name="@Html.DisplayNameFor(m => m.StartDate)" value="@todayDate"/>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -29,7 +36,7 @@
             <button class="form-control btn chore-form-btn btn-add-chore w-auto bg-light"><i class="fas fa-plus mr-3"></i>add chore</button>
         </div>
 
-        <div class="col text-center push-to-bottom">
+        <div class="col text-center">
             <input type="submit" id="main-submit" class="w-25 form-control btn btn-primary btn-lg" value="Create">
         </div>
     }
@@ -38,3 +45,16 @@
 @* Render all needed Templates for Dynamic-Forms *@
 @* ====================================== *@
 <partial name="_ChoreTemplates"/>
+
+@section Scripts{
+
+    <script src="~/js/jquery.serializeToJSON.js"></script>
+    <script src="~/js/planForm.js" asp-append-version="true"></script>
+@*     <script> *@
+@*         $(function() { *@
+@*             $('#showJson').click(function() { *@
+@*                 alert(JSON.stringify($('#create-plan-form').serializeToJSON())); *@
+@*             }); *@
+@*         }); *@
+@*     </script> *@
+}

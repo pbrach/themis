@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using AppDomain.Requests;
 using AutoMapper;
 using Persistence;
@@ -15,7 +17,7 @@ namespace WebAPI.Integrations
         public RetrievePlanFormIntegrator(string id, string token)
         {
             _id = id;
-            _token = token; //TODO: use this to verify access
+            _token = token;
             _planRepo = new PlanRepository();
         }
 
@@ -24,12 +26,22 @@ namespace WebAPI.Integrations
             var request = new RetrievePlanRequest(_planRepo.DoesPlanIdExist, _planRepo.RetrievePlan, _id);
             var response = request.Handle();
 
+            if (response.Plan.Token != _token)
+            {
+                return new ErrorViewModel {ErrorMessage = "Invalid access token for editing the plan"};
+            }
+            
             if (!string.IsNullOrEmpty(response.ErrorMessage))
             {
                 return new ErrorViewModel {ErrorMessage = response.ErrorMessage};
             }
 
-            return Mapper.Map<PlanFormViewModel>(response.Plan);
+            var result = Mapper.Map<PlanFormViewModel>(response.Plan);
+            
+            var choreOne = result.Chores.FirstOrDefault();
+            result.StartDate = choreOne?.StartDay ?? DateTime.Now;
+            
+            return result;
         }  
     }
 }

@@ -1,8 +1,4 @@
-@using AppDomain.Requests
-@{
-    var todayDate = DateTime.Now.ToString("yyyy-MM-dd");
-}
-@* ====== Templates ====== *@
+@using WebAPI.Integrations
 
 @*template: Chore*@
 <template id="chore-template">
@@ -24,20 +20,17 @@
         </div>
 
         <div class="add-interval-from form-group form-inline">
-            <select class="interval-type-selector form-control mr-3" data-last-value="Duration Interval" name="IntervalType">
-                @foreach (var fName in IntervalService.GetIntervalFriendlyNames())
+            <div class="interval-parameter-form">
+                <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="duration of an assignment" required="required" pattern="[1-9]\d*"/>
+            </div>
+            
+            <select class="interval-type-selector form-control ml-3" data-last-value="Duration Interval" name="Chores[0].IntervalType">
+                @foreach (var (display, value) in IntervalNameService.Get())
                 {
-                    <option class="interval-option" value="@fName"
-                            @{ fName == "Duration Interval" ? "selected" : ""}>
-                        @fName</option>
+                    var sel = display == "Days" ? "selected" : null;
+                    <option class="interval-option" value="@value" selected="@sel">@display</option>
                 }
             </select>
-            <div class="interval-parameter-form form-inline">
-                <label class="form-label mr-3">
-                    Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-                </label>
-                <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
-            </div>
         </div>
     </div>
 </template>
@@ -45,37 +38,14 @@
 @*template: Intervals:: Duration-Interval*@
 <template id="Duration-Interval">
     <div class="interval-parameter-form">
-        <label class="form-label mr-3">
-            Starting Day: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-        </label>
-        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in days" pattern="[1-9]\d*"/>
-    </div>
-</template>
-
-@*template: Intervals:: Week-Interval*@
-<template id="Week-Interval">
-    <div class="interval-parameter-form">
-        <label class="form-label mr-3">
-            Select starting week with any date within that week: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-        </label>
-        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in weeks" pattern="[1-9]\d*"/>
-    </div>
-</template>
-
-@*template: Intervals:: Month-Interval*@
-<template id="Month-Interval">
-    <div class="interval-parameter-form">
-        <label class="form-label mr-3">
-            Select starting month with any date within that month: <input type="date" class="form-control chore-startdate ml-2" name="Chores[0].StartDay" value="@todayDate"/>
-        </label>
-        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="Duration in months" pattern="[1-9]\d*"/>
+        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" required="required" pattern="[1-9]\d*"/>
     </div>
 </template>
 
 @*template: Add User*@
 <template id="user-template">
     <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
-        <input class="form-control normal-user-input p-0 bg-light"/>
+        <input class="form-control normal-user-input p-0 bg-light" name="Chores[0].AssignedUsers"/>
         <button class="form-control btn chore-form-btn btn-remove-user bg-light">
             <i class="fas fa-times"></i>
         </button>

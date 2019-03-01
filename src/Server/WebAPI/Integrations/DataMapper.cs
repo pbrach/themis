@@ -58,7 +58,7 @@ namespace WebAPI.Integrations
         {
             var result = IntervalService.CreateNew(model.IntervalType);
             result.Duration = (uint)model.Duration;
-            result.StartDay = model.StartDay;
+            result.StartDay = model.StartDay.Value; // MUST have a valid StartDay here!
             result.StartOfWeek = model.StartOfWeek;
             return result;
         }
