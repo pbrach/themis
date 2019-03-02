@@ -1,4 +1,4 @@
-# themis
+# themis (prototype)
 
 themis: a collaborative tasks/chores management tool. it can be used for household chores planning across multiple tennants.
 

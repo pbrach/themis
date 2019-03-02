@@ -44,5 +44,3 @@ For editing a plan we want to use a second similar ID in the URL as an authoriza
 | `~/api/plan/{id}`               | AJAX~GET    | GETs the read-only data for a plan as Json |
 | `~/api/plan/{id}?token={token}` | AJAX~PUT    | UPDATEs the plan. Data must be provided as Json in the request body. |
 | `~/api/plan/{id}?token={token}` | AJAX~DELETE | DELETEs the plan. Data must be provided as Json in the request body. |
-
-## TO-DO: Data Description 
