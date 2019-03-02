@@ -31,3 +31,11 @@ this allows everyone to at least know who would be responsible for bringing the 
     - who will be next
 * share the plan via a link with everyone
 * no account needed: data is somewhat protected by a hard to guess link to individual plans
+
+
+## how-to: development setup
+* checkout master branch
+* load solution
+* perform nuget package restore
+* go to the **WebAPI** project and perform a `bower restore`
+* run the **WebAPI** project
