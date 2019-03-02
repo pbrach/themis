@@ -60,23 +60,5 @@ namespace AppDomain.Entities.Intervals
             var dow = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(dayDate);
             return dow == StartOfWeek;
         }
-
-        public override uint? GetTurnNumber(DateTime date)
-        {
-            var elapsedSinceStart = date - IntervalStart;
-            
-            if (elapsedSinceStart < TimeSpan.Zero)
-            {
-                return null; // the StartDay is in the future, so it is no ones turn yet!
-            }
-
-            if (elapsedSinceStart < TurnDuration)
-            {
-                return 0;
-            }
-
-            var currentTurnNumber = elapsedSinceStart / TurnDuration;
-            return (uint) currentTurnNumber;
-        }
     }
 }

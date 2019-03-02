@@ -7,7 +7,7 @@ namespace AppDomain.Entities.Intervals
     {
         public override string FriendlyName => "Month Interval";
 
-        private DateTime? _intervalStart = null;
+        private DateTime? _intervalStart;
         private DateTime IntervalStart
         {
             get
@@ -31,38 +31,10 @@ namespace AppDomain.Entities.Intervals
             return new DateTime(StartDay.Year, StartDay.Month, 1);
         }
 
-        private uint _startMonth = 0;
-        public uint StartMonth
-        {
-            get
-            {
-                if (_startMonth == 0)
-                {
-                    _startMonth = (uint)StartDay.Month;
-                }
-
-                return _startMonth;
-            }
-        }
-
-        private uint _startYear = 0;
-        public uint StartYear
-        {
-            get
-            { 
-                if(_startYear == 0)
-                {
-                    _startYear = (uint) StartDay.Year;
-                }
-
-                return _startYear;
-            }
-        }
-
         
         public override uint? GetTurnNumber(DateTime date)
         {
-            var monthsSinceStart = date.Month - StartMonth + 12 * (date.Year - StartYear);
+            var monthsSinceStart = date.Month - StartDay.Month + 12 * (date.Year - StartDay.Year);
 
             if (monthsSinceStart < 0)
             {
