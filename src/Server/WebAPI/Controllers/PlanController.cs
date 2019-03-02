@@ -54,6 +54,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Edit(string id, string token, PlanFormViewModel planFormVm)
         {
+            // Demo Plan Case
+            if (id == "cVJ58vGy344MnRwc2vO0Z8lR1C669W1V")
+            {
+                return RedirectToAction("Success", "Plan", new SuccessViewModel{Id = "cVJ58vGy344MnRwc2vO0Z8lR1C669W1V", Token = "2vO0Z8lR1C669W1VcVJ58vGy344MnRwc", SuccessActionName = "changed"});      
+            }
+            
+            // Normal Case
             var resultVm = new UpdatePlan(planFormVm, id, token).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
