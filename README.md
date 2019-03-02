@@ -2,6 +2,13 @@
 
 themis: a collaborative tasks/chores management tool. it can be used for household chores planning across multiple tennants.
 
+***NOTE:*** this is a pure prototypical implementation for illustrating the general concept of themis. thus almost everything except some basic features is missing like:
+- no clean code
+- no localization (language is english but weekstart day is monday)
+- no exception handling
+- no logging
+- no validation of user input
+
 ## use case example
 * a group of people needs to coordinate one or more reoccuring tasks:  
 > clean the floor  
