@@ -20,11 +20,11 @@
         </div>
 
         <div class="add-interval-from form-group form-inline">
-            <div class="interval-parameter-form">
+            <div class="interval-parameter-form w-auto">
                 <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="duration of an assignment" required="required" pattern="[1-9]\d*"/>
             </div>
             
-            <select class="interval-type-selector form-control ml-3" data-last-value="Duration Interval" name="Chores[0].IntervalType">
+            <select class="interval-type-selector form-control ml-3 w-auto" data-last-value="Duration Interval" name="Chores[0].IntervalType">
                 @foreach (var (display, value) in IntervalNameService.Get())
                 {
                     var sel = display == "Days" ? "selected" : null;
@@ -32,13 +32,6 @@
                 }
             </select>
         </div>
-    </div>
-</template>
-
-@*template: Intervals:: Duration-Interval*@
-<template id="Duration-Interval">
-    <div class="interval-parameter-form">
-        <input type="text" class="form-control chore-duration" name="Chores[0].Duration" required="required" pattern="[1-9]\d*"/>
     </div>
 </template>
 

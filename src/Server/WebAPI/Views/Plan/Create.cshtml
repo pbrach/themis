@@ -13,23 +13,20 @@
     @using (Html.BeginForm("Index", "Plan",
         null, FormMethod.Post, true, new {id = "create-plan-form"}))
     {
-        <div class="row">
-            <div class="col-8">
-                <div class="form-group form-inline">
-                    <input type="text" class="w-100 form-control form-control-lg" id="main-1"
-                           name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
-                </div>
+        <div class="form-group form-inline">
+            <input type="text" class="w-100 form-control form-control-lg" id="main-1"
+                   name="@Html.DisplayNameFor(m => m.Title)" placeholder="A title for your plan">
+        </div>
 
-                <div class="form-group form-inline ">
-                    <textarea rows="3" class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
-                </div>
+        <div class="form-group form-inline ">
+            <textarea class="w-100 form-control form-control-lg" id="main-2" name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan about"></textarea>
+        </div>
 
-                <div class="form-group form-inline ">
-                    <label class="form-label mr-3">
-                        On which day does the plan start? <input type="date" class="form-control plan-startdate ml-2" name="@Html.DisplayNameFor(m => m.StartDate)" value="@todayDate"/>
-                    </label>
-                </div>
-            </div>
+        <div class="form-group form-inline ">
+            <label class="form-label">
+                On which day does the plan start?
+            </label>
+            <input type="date" class="form-control plan-startdate w-auto ml-4" name="@Html.DisplayNameFor(m => m.StartDate)" value="@todayDate"/>
         </div>
 
         <div id="dynamic-chores-list">
