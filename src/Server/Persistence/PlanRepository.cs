@@ -8,41 +8,39 @@ using Persistence.DbTypes;
 
 namespace Persistence
 {
-    public class PlanRepository
+    public class PlanRepository : IPlanRepository
     {
+        private readonly ThemisContext _dbContext;
+
+        public PlanRepository(ThemisContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public bool DoesPlanIdExist(string planId)
         {
             var exists = false;
-            using (var ctx = new ThemisContext())
-            {
-                exists = ctx.Plans.Find(planId) != null;
-            }
+            exists = _dbContext.Plans.Find(planId) != null;
 
-            return exists;        
+            return exists;
         }
-        
+
         public IEnumerable<Tuple<string, string>> GetAccessInfos()
         {
             var idList = new List<Tuple<string, string>>();
-            using (var ctx = new ThemisContext())
-            {
-                idList.AddRange(ctx.Plans.Select(x => new Tuple<string, string>(x.Id, x.Token)));
-            }
+            idList.AddRange(_dbContext.Plans.Select(x => new Tuple<string, string>(x.Id, x.Token)));
 
-            return idList;        
+            return idList;
         }
 
         public bool StoreNewPlan(Plan plan)
         {
             var wasSuccess = false;
-            using (var ctx = new ThemisContext())
-            {
-                var dbPlan = MapFromBl(plan);
-                ctx.Plans.Add(dbPlan);
-                var result = ctx.SaveChanges();
+            var dbPlan = MapFromBl(plan);
+            _dbContext.Plans.Add(dbPlan);
+            var result = _dbContext.SaveChanges();
 
-                wasSuccess = result != 0;
-            }
+            wasSuccess = result != 0;
 
             return wasSuccess;
         }
@@ -50,20 +48,17 @@ namespace Persistence
         public bool DeletePlan(string id)
         {
             var wasSuccess = false;
-            using (var ctx = new ThemisContext())
+            var plan = _dbContext.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
+            if (plan == null)
             {
-                var plan = ctx.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
-                if (plan == null)
-                {
-                    return false;
-                }
-                
-                ctx.Chores.RemoveRange(plan.Chores);
-                ctx.Plans.Remove(plan);
-                var result = ctx.SaveChanges();
-
-                wasSuccess = result != 0;
+                return false;
             }
+
+            _dbContext.Chores.RemoveRange(plan.Chores);
+            _dbContext.Plans.Remove(plan);
+            var result = _dbContext.SaveChanges();
+
+            wasSuccess = result != 0;
 
             return wasSuccess;
         }
@@ -98,10 +93,7 @@ namespace Persistence
         public Plan RetrievePlan(string id)
         {
             DbPlan dbPlan = null;
-            using (var ctx = new ThemisContext())
-            {
-                dbPlan = ctx.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
-            }
+            dbPlan = _dbContext.Plans.Include(pl => pl.Chores).FirstOrDefault(pl => pl.Id == id);
 
             var plan = new Plan
             {
@@ -114,19 +106,20 @@ namespace Persistence
 
             return plan;
         }
-        
+
         private static Chore MapFromDb(DbChore dbChore)
         {
             var interval = IntervalService.CreateNew(dbChore.IntervalType);
             interval.Duration = dbChore.Duration;
             interval.StartDay = dbChore.StartDay;
             interval.StartOfWeek = dbChore.StartOfWeek;
-            
-            string[] assis= {};
+
+            string[] assis = { };
             if (!string.IsNullOrEmpty(dbChore.AssignedUsers))
             {
                 assis = dbChore.AssignedUsers.Split(";");
             }
+
             return new Chore
             {
                 Title = dbChore.Title,

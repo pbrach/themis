@@ -5,14 +5,19 @@ namespace Persistence
 {
     public class ThemisContext : DbContext
     {
+        public ThemisContext(DbContextOptions<ThemisContext> options)
+        :base(options)
+        {
+            
+        }
         public DbSet<DbChore> Chores {get; set; }
         public DbSet<DbPlan> Plans {get; set; }
         
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=../Persistence/themis.db;");
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            optionsBuilder.UseSqlite("Data Source=../Persistence/themis.db;");
+//        }
 
 //        protected override void OnModelCreating(ModelBuilder modelBuilder)
 //        {

@@ -9,13 +9,13 @@ namespace WebAPI.Integrations
     public class RetrievePlanIntegrator
     {
         private readonly string _id;
-        private readonly PlanRepository _planRepo;
+        private readonly IPlanRepository _planRepo;
         private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
-        public RetrievePlanIntegrator(string id)
+        public RetrievePlanIntegrator(string id, IPlanRepository planRepo)
         {
             _id = id;
-            _planRepo = new PlanRepository();
+            _planRepo = planRepo;
         }
 
         public object Run()

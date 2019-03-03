@@ -13,12 +13,12 @@ namespace WebAPI.Integrations
         private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
         private PlanFormViewModel PlanFormViewModel { get; }
-        private PlanRepository PlanRepo { get; }
+        private IPlanRepository PlanRepo { get; }
 
-        public CreatePlanIntegrator(PlanFormViewModel planFormViewModel)
+        public CreatePlanIntegrator(PlanFormViewModel planFormViewModel, IPlanRepository planRepo)
         {
             PlanFormViewModel = planFormViewModel;
-            PlanRepo = new PlanRepository(); // BAD: Dependency hiding!!!
+            PlanRepo = planRepo; // BAD: Dependency hiding!!!
         }
 
         public object Run()

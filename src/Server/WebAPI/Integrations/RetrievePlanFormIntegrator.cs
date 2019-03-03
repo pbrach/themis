@@ -11,14 +11,14 @@ namespace WebAPI.Integrations
     {
         private readonly string _id;
         private readonly string _token;
-        private readonly PlanRepository _planRepo;
+        private readonly IPlanRepository _planRepo;
         private static readonly IMapper Mapper = DataMapper.MapperConfig.CreateMapper();
 
-        public RetrievePlanFormIntegrator(string id, string token)
+        public RetrievePlanFormIntegrator(string id, string token, IPlanRepository planRepo)
         {
             _id = id;
             _token = token;
-            _planRepo = new PlanRepository();
+            _planRepo = planRepo;
         }
 
         public object Run()

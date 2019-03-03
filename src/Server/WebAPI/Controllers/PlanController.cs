@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Persistence;
 using WebAPI.Integrations;
 using WebAPI.Models;
 using CreatePlanIntegrator = WebAPI.Integrations.CreatePlanIntegrator;
@@ -9,6 +10,13 @@ namespace WebAPI.Controllers
 {
     public class PlanController : Controller
     {
+        private readonly IPlanRepository _planRepo;
+
+        public PlanController(IPlanRepository planRepo)
+        {
+            _planRepo = planRepo;
+        }
+        
         /// <summary>
         /// SHOW Plan
         /// </summary>
@@ -16,7 +24,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Index(string id)
         {
-            var resultVm = new RetrievePlanIntegrator(id).Run();
+            var resultVm = new RetrievePlanIntegrator(id, _planRepo).Run();
             if (resultVm is PlanViewModel planViewModel)
             {   
                 return View(planViewModel);  
@@ -34,7 +42,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public IActionResult Edit(string id, string token)
         {
-            var resultVm = new RetrievePlanFormIntegrator(id, token).Run();
+            var resultVm = new RetrievePlanFormIntegrator(id, token, _planRepo).Run();
             
             if (resultVm is PlanFormViewModel planFormViewModel)
             {   
@@ -61,7 +69,7 @@ namespace WebAPI.Controllers
             }
             
             // Normal Case
-            var resultVm = new UpdatePlan(planFormVm, id, token).Run();
+            var resultVm = new UpdatePlan(planFormVm, id, token, _planRepo).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
             {
@@ -94,7 +102,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public IActionResult Index(PlanFormViewModel planFormVm)
         {
-            var resultVm = new CreatePlanIntegrator(planFormVm).Run();
+            var resultVm = new CreatePlanIntegrator(planFormVm, _planRepo).Run();
 
             if (resultVm is SuccessViewModel successViewModel)
             {
