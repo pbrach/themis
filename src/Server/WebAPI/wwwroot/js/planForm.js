@@ -83,8 +83,6 @@ $(document).ready(function () {
 
             $(elem).find('.interval-type-selector').attr('name', `Chores[${choreIdx}].IntervalType`);
 
-            // $(elem).find('.chore-startdate').attr('name', `Chores[${choreIdx}].StartDay`);
-
             $(elem).find('.chore-duration').attr('name', `Chores[${choreIdx}].Duration`);
 
             $(elem).find('.normal-user-input').each(function (index) {
@@ -96,22 +94,6 @@ $(document).ready(function () {
     // INDEX and Data-Mapping of all Chore fields
     jqForm.submit(function () {
         $('.add-user-input').prop("disabled", true);
+        updateIndices();
     });
-
-    function measureText(txt, font) {
-        var id = 'text-width-tester',
-            $tag = $('#' + id);
-        if (!$tag.length) {
-            $tag = $('<span id="' + id + '" style="display:none;font:' + font + ';">' + txt + '</span>');
-            $('body').append($tag);
-        } else {
-            $tag.css({font:font}).html(txt);
-        }
-        return {
-            width: $tag.width(),
-            height: $tag.height()
-        }
-    }
-
-    var size = measureText("spam", "bold 12px Verdana");
 });
