@@ -8,26 +8,21 @@
                 <i class="icon-rm-chore fas fa-times"></i>
             </button>
         </div>
-        <div class="form-group form-row justify-content-between align-top">
-            <input type="text" class="form-control chore-title col-5" name="Chores[0].Title" placeholder="Title / what to do"/>
-            <textarea rows="2" class="form-control chore-description col-6" name="Chores[0].Description" placeholder="Detailed description"></textarea>
+        <div class="form-group row align-top justify-content-around">
+            <input type="text" class="form-control chore-title col-md-6 col-12" name="Chores[0].Title" placeholder="Title / what to do"/>
+            <textarea rows="2" class="form-control chore-description m-md-0 mt-3 col-md-5 col-12" name="Chores[0].Description" placeholder="Detailed description"></textarea>
         </div>
 
-        <div class="add-user-form form-group">
-            @* <div class="form-inline add-user-group user-form-group mt-2"> *@
-            @*     <input class="form-control add-user-input w-100" placeholder="add user..."/> *@
-            @* </div> *@
+        <div class="add-user-form form-group container">
             <button class="form-control btn chore-form-btn add-user-btn w-auto bg-light m-3">
                 <i class="fas fa-plus mr-3"></i>add user
             </button>
         </div>
 
-        <div class="add-interval-from form-group form-inline">
-            <div class="interval-parameter-form">
-                <input type="text" class="form-control chore-duration" size="6" name="Chores[0].Duration" placeholder="duration in..." required="required" pattern="[1-9]\d*"/>
-            </div>
-            
-            <select class="interval-type-selector form-control ml-3 w-auto" data-last-value="Duration Interval" name="Chores[0].IntervalType">
+        <div class="d-flex add-interval-from form-group form-inline">
+            <input type="text" class="form-control chore-duration col-lg-2 col-sm-3 col-5" name="Chores[0].Duration" placeholder="duration in..." required="required" pattern="[1-9]\d*"/>
+
+            <select class="interval-type-selector form-control ml-3 col-lg-2 col-sm-3 col-6" data-last-value="Duration Interval" name="Chores[0].IntervalType">
                 @foreach (var (display, value) in IntervalNameService.Get())
                 {
                     var sel = display == "Days" ? "selected" : null;
@@ -40,9 +35,9 @@
 
 @*template: Add User*@
 <template id="user-template">
-    <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light justify-content-between">
-        <input class="form-control normal-user-input p-0 bg-light w-75" name="Chores[0].AssignedUsers" placeholder="user name" required="required"/>
-        <button class="form-control btn chore-form-btn btn-remove-user bg-light">
+    <div class="d-inline-flex user-form-group mr-3 mt-2 pl-2 bg-light">
+        <input class="form-control normal-user-input p-0 bg-light w-75 col-10" name="Chores[0].AssignedUsers" placeholder="user name" required="required"/>
+        <button class="form-control btn chore-form-btn btn-remove-user bg-light col-2">
             <i class="fas fa-times"></i>
         </button>
     </div>
