@@ -58,10 +58,11 @@ $(document).ready(function () {
             e.preventDefault();
 
             const dynamicClone = addUserTemplate.clone(true);
-
+                        
             dynamicClone.insertBefore($(e.target));
+            dynamicClone[0].querySelector('.normal-user-input').focus();
+            
             updateIndices();
-            return false;
         });
 
     // Remove USER Action
