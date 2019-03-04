@@ -17,7 +17,7 @@
             @* <div class="form-inline add-user-group user-form-group mt-2"> *@
             @*     <input class="form-control add-user-input w-100" placeholder="add user..."/> *@
             @* </div> *@
-            <button class="form-control btn chore-form-btn add-user-btn w-auto bg-light">
+            <button class="form-control btn chore-form-btn add-user-btn w-auto bg-light m-3">
                 <i class="fas fa-plus mr-3"></i>add user
             </button>
         </div>
@@ -40,8 +40,8 @@
 
 @*template: Add User*@
 <template id="user-template">
-    <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
-        <input class="form-control normal-user-input p-0 bg-light" name="Chores[0].AssignedUsers"/>
+    <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light justify-content-between">
+        <input class="form-control normal-user-input p-0 bg-light w-75" name="Chores[0].AssignedUsers" placeholder="user name"/>
         <button class="form-control btn chore-form-btn btn-remove-user bg-light">
             <i class="fas fa-times"></i>
         </button>

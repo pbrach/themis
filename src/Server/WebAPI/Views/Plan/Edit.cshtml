@@ -51,13 +51,13 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
                         @foreach (var userName in chore.AssignedUsers)
                         {
                             <div class="form-inline user-form-group mr-3 mt-2 pl-2 bg-light">
-                                <input class="form-control normal-user-input p-0 bg-light" value="@userName"/>
+                                <input class="form-control normal-user-input p-0 bg-light" placeholder="user name" value="@userName"/>
                                 <button class="form-control btn chore-form-btn btn-remove-user bg-light">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         }
-                        <button class="form-control btn chore-form-btn add-user-btn w-auto bg-light">
+                        <button class="form-control btn chore-form-btn add-user-btn w-auto bg-light m-3">
                             <i class="fas fa-plus mr-3"></i>add user
                         </button>
                     </div>
