@@ -53,25 +53,15 @@ $(document).ready(function () {
 
 
     // Add USER Action
-    jqDynChoresList.on('keyup.add-user-input',
+    jqDynChoresList.on('click', '.add-user-btn',
         function (e) {
-            if (e.key !== "Enter")
-                return;
             e.preventDefault();
-            const userAdderInput = $(e.target);
-            const userName = userAdderInput.val().trim();
-            if (userName === "")
-                return;
 
             const dynamicClone = addUserTemplate.clone(true);
-            const cloneUserInput = $(dynamicClone.children()[0]);
 
-            cloneUserInput.val(userName);
-            cloneUserInput.attr('size', userName.length);
-            userAdderInput.val("");
-
-            dynamicClone.insertBefore($(e.target).closest('.add-user-group'));
+            dynamicClone.insertBefore($(e.target));
             updateIndices();
+            return false;
         });
 
     // Remove USER Action
@@ -107,4 +97,21 @@ $(document).ready(function () {
     jqForm.submit(function () {
         $('.add-user-input').prop("disabled", true);
     });
+
+    function measureText(txt, font) {
+        var id = 'text-width-tester',
+            $tag = $('#' + id);
+        if (!$tag.length) {
+            $tag = $('<span id="' + id + '" style="display:none;font:' + font + ';">' + txt + '</span>');
+            $('body').append($tag);
+        } else {
+            $tag.css({font:font}).html(txt);
+        }
+        return {
+            width: $tag.width(),
+            height: $tag.height()
+        }
+    }
+
+    var size = measureText("spam", "bold 12px Verdana");
 });
