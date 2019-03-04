@@ -64,7 +64,7 @@ name="@Html.DisplayNameFor(m => m.Description)" placeholder="What is your plan a
 
                     <div class="add-interval-from form-group form-inline">
                         <div class="interval-parameter-form w-auto">
-                            <input type="text" class="form-control chore-duration" name="Chores[0].Duration" placeholder="duration of an assignment" required="required" pattern="[1-9]\d*" value="@chore.Duration"/>
+                            <input type="text" class="form-control chore-duration" name="Chores[0].Duration" size="6" placeholder="duration in..." required="required" pattern="[1-9]\d*" value="@chore.Duration"/>
                         </div>
 
                         <select class="interval-type-selector form-control w-auto ml-3" data-last-value="Duration Interval" name="Chores[0].IntervalType">
