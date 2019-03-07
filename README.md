@@ -2,6 +2,10 @@
 
 themis: a collaborative tasks/chores management tool. it can be used for household chores planning across multiple tennants.
 
+checkout a running instance at:  
+https://themis-prototype.azurewebsites.net/
+
+
 ***NOTE:*** this is a pure prototypical implementation for illustrating the general concept of themis. thus almost everything except some basic features is missing like:
 - no clean code
 - no localization (language is english but weekstart day is monday)
